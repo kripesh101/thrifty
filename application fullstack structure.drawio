@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-14T10:19:49.160Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36" etag="D26mpy3hjc6hv2JL9M-B" version="20.1.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-14T10:23:54.465Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36" etag="oD47hSWZwtpKHsLOD54l" version="20.1.1" type="github">
   <diagram id="YkQbkA1knpU9ziaZWFZ_" name="Page-1">
     <mxGraphModel dx="790" dy="413" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -10,7 +10,7 @@
         <mxCell id="SitiBSG7gqWlLSup9zll-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;startArrow=classic;startFill=1;labelBackgroundColor=#F1FAEE;strokeColor=#457B9D;fontColor=#1D3557;" edge="1" parent="SitiBSG7gqWlLSup9zll-3" source="SitiBSG7gqWlLSup9zll-5" target="SitiBSG7gqWlLSup9zll-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-5" value="    Database (SQLite)" style="rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;align=left;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
+        <mxCell id="SitiBSG7gqWlLSup9zll-5" value="" style="rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;align=left;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
           <mxGeometry x="20" y="40" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="SitiBSG7gqWlLSup9zll-6" value="REST API Server&#xa;&#xa;(Python + FastAPI)" style="rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
@@ -18,6 +18,9 @@
         </mxCell>
         <mxCell id="SitiBSG7gqWlLSup9zll-13" value="" style="verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#457B9D;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;rounded=1;dashPattern=1 1;fontColor=#1D3557;fillColor=#A8DADC;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
           <mxGeometry x="153" y="45.5" width="14" height="19" as="geometry" />
+        </mxCell>
+        <mxCell id="SitiBSG7gqWlLSup9zll-15" value="Database (SQLite)" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;dashed=1;dashPattern=1 1;fontColor=#1D3557;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
+          <mxGeometry x="25" y="40" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="SitiBSG7gqWlLSup9zll-4" value="Frontend" style="swimlane;dashed=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="530" y="220" width="200" height="140" as="geometry">
