@@ -1,22 +1,22 @@
-<mxfile host="app.diagrams.net" modified="2022-07-14T10:15:55.433Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36" etag="CucFWW2zoBmQgu8UZX5D" version="20.1.1" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-14T10:19:49.160Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36" etag="D26mpy3hjc6hv2JL9M-B" version="20.1.1" type="github">
   <diagram id="YkQbkA1knpU9ziaZWFZ_" name="Page-1">
-    <mxGraphModel dx="790" dy="447" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="790" dy="413" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="SitiBSG7gqWlLSup9zll-3" value="Backend" style="swimlane;dashed=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;rounded=1;" vertex="1" parent="1">
           <mxGeometry x="180" y="160" width="200" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;labelBackgroundColor=#F1FAEE;strokeColor=#457B9D;fontColor=#1D3557;" edge="1" parent="SitiBSG7gqWlLSup9zll-3" source="SitiBSG7gqWlLSup9zll-5" target="SitiBSG7gqWlLSup9zll-6">
+        <mxCell id="SitiBSG7gqWlLSup9zll-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;startArrow=classic;startFill=1;labelBackgroundColor=#F1FAEE;strokeColor=#457B9D;fontColor=#1D3557;" edge="1" parent="SitiBSG7gqWlLSup9zll-3" source="SitiBSG7gqWlLSup9zll-5" target="SitiBSG7gqWlLSup9zll-6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-5" value="&amp;nbsp; &amp;nbsp; Database (SQLite)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;align=left;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
+        <mxCell id="SitiBSG7gqWlLSup9zll-5" value="    Database (SQLite)" style="rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;align=left;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
           <mxGeometry x="20" y="40" width="160" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-6" value="REST API Server&lt;br&gt;&lt;br&gt;(Python + FastAPI)" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
+        <mxCell id="SitiBSG7gqWlLSup9zll-6" value="REST API Server&#xa;&#xa;(Python + FastAPI)" style="rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
           <mxGeometry x="20" y="100" width="160" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-13" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#457B9D;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;rounded=1;dashPattern=1 1;fontColor=#1D3557;fillColor=#A8DADC;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
+        <mxCell id="SitiBSG7gqWlLSup9zll-13" value="" style="verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#457B9D;shadow=0;dashed=0;shape=mxgraph.ios7.icons.data;rounded=1;dashPattern=1 1;fontColor=#1D3557;fillColor=#A8DADC;" vertex="1" parent="SitiBSG7gqWlLSup9zll-3">
           <mxGeometry x="153" y="45.5" width="14" height="19" as="geometry" />
         </mxCell>
         <mxCell id="SitiBSG7gqWlLSup9zll-4" value="Frontend" style="swimlane;dashed=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;rounded=1;" vertex="1" parent="1">
@@ -24,18 +24,18 @@
             <mxRectangle x="530" y="220" width="90" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-9" value="Website&lt;br&gt;&lt;br&gt;(Svelte, HTML, CSS, JS)" style="whiteSpace=wrap;html=1;rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="SitiBSG7gqWlLSup9zll-4">
+        <mxCell id="SitiBSG7gqWlLSup9zll-9" value="Website&#xa;&#xa;(Svelte, HTML, CSS, JS)" style="rounded=1;fillColor=#A8DADC;strokeColor=#457B9D;fontColor=#1D3557;" vertex="1" parent="SitiBSG7gqWlLSup9zll-4">
           <mxGeometry x="20" y="42.5" width="160" height="75" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;labelBackgroundColor=#F1FAEE;strokeColor=#457B9D;fontColor=#1D3557;shadow=0;" edge="1" parent="1" source="SitiBSG7gqWlLSup9zll-6" target="SitiBSG7gqWlLSup9zll-9">
+        <mxCell id="SitiBSG7gqWlLSup9zll-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;startArrow=classic;startFill=1;labelBackgroundColor=#F1FAEE;strokeColor=#457B9D;fontColor=#1D3557;shadow=0;" edge="1" parent="1" source="SitiBSG7gqWlLSup9zll-6" target="SitiBSG7gqWlLSup9zll-9">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-12" value="HTTP Requests" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#1D3557;" vertex="1" connectable="0" parent="SitiBSG7gqWlLSup9zll-10">
+        <mxCell id="SitiBSG7gqWlLSup9zll-12" value="HTTP Requests" style="edgeLabel;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#1D3557;" vertex="1" connectable="0" parent="SitiBSG7gqWlLSup9zll-10">
           <mxGeometry x="0.175" y="2" relative="1" as="geometry">
             <mxPoint x="-13" y="-8" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="SitiBSG7gqWlLSup9zll-14" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#457B9D;shadow=0;dashed=0;shape=mxgraph.ios7.icons.globe;rounded=1;dashPattern=1 1;fontColor=#1D3557;fillColor=#A8DADC;" vertex="1" parent="1">
+        <mxCell id="SitiBSG7gqWlLSup9zll-14" value="" style="verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#457B9D;shadow=0;dashed=0;shape=mxgraph.ios7.icons.globe;rounded=1;dashPattern=1 1;fontColor=#1D3557;fillColor=#A8DADC;" vertex="1" parent="1">
           <mxGeometry x="448" y="306" width="20" height="20" as="geometry" />
         </mxCell>
       </root>
