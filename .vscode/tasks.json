@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "npm setup",
+            "type": "shell",
+            "options": { "cwd": "${workspaceFolder}/web" },
+            "command": "npm install"
+        },
+        {
+            "label": "Run frontend startup",
+            "type": "shell",
+            "options": { "cwd": "${workspaceFolder}/web" },
+            "command": "npm run dev",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "group": "develop",
+            },
+            "runOptions": { "runOn": "folderOpen" },
+            "dependsOn": ["npm setup"]
+        },
+        {
+            "label": "pdm setup",
+            "type": "shell",
+            "options": { "cwd": "${workspaceFolder}/backend" },
+            "command": "pdm install"
+        },
+        {
+            "label": "Run FastAPI backend",
+            "type": "shell",
+            "options": { "cwd": "${workspaceFolder}/backend" },
+            "command": "pdm run start",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "group": "develop",
+            },
+            "runOptions": { "runOn": "folderOpen" },
+            "dependsOn": ["pdm setup"]
+        }
+    ]
+}
