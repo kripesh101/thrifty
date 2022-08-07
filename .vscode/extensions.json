@@ -3,6 +3,7 @@
         "svelte.svelte-vscode",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        "ms-python.python"
+        "ms-python.python",
+        "qwtel.sqlite-viewer"
     ]
 }

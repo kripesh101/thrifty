@@ -28,13 +28,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-import sqlite3
-con = sqlite3.connect('data.db')
+
+con = sqlite3.connect('data.sqlite')
 
 cur = con.cursor()
 
 # Create table
-cur.execute('''CREATE TABLE stocks
+cur.execute('''CREATE TABLE IF NOT EXISTS stocks
                (date text, trans text, symbol text, qty real, price real)''')
 
 # Insert a row of data
