@@ -15,7 +15,7 @@
     ],
     "rules": {
         "prefer-const": "error",
-        "camelcase": ["warn", { "allow": ["^UNSAFE_", "^u_"] }]
+        "camelcase": ["warn", { "allow": ["^UNSAFE_"] }]
     },
     "parserOptions": {
         "ecmaVersion": 2020,
