@@ -34,11 +34,21 @@ con = sqlite3.connect('data.sqlite')
 cur = con.cursor()
 
 # Create table
-cur.execute('''CREATE TABLE IF NOT EXISTS stocks
-               (date text, trans text, symbol text, qty real, price real)''')
+cur.execute('''CREATE TABLE IF NOT EXISTS Users(
+    UserID TEXT PRIMARY KEY,
+    Password TEXT,
+    WeeklyTarget INTEGER
+)''')
 
-# Insert a row of data
-cur.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+#Table 2: expenses table
+cur.execute('''CREATE TABLE IF NOT EXISTS Expenses(
+    UserID TEXT,
+    Cost INTEGER,
+    Time INTEGER, 
+    Category TEXT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+)''')
+
 
 # Save (commit) the changes
 con.commit()
@@ -55,3 +65,18 @@ def read_root():
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
+
+@app.get("/register/{username}/{password}")
+def register(username: str, password: str):
+    success = False
+    data = (username, password, 0)
+    try:
+        con = sqlite3.connect('data.sqlite')
+        cur = con.cursor()
+        cur.execute("INSERT INTO Users VALUES (?, ?, ?)", data)
+        con.commit()
+        con.close()
+        success = True
+    except sqlite3.Error as er:
+        print(er)
+    return {"success": success}
