@@ -59,7 +59,7 @@ con.close()
 
 @app.get("/")
 def read_root():
-    return {"Salong": "Gay boi 101"}
+    return {"Salong": "jhyap boi 101"}
 
 
 @app.get("/items/{item_id}")
