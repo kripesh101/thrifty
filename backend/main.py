@@ -89,6 +89,4 @@ def user_info(username: str):
     rows = cur.fetchall()
 
     for row in rows:
-        return{row}
-
-    
+        return{row} 
