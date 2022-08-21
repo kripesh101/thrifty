@@ -80,3 +80,15 @@ def register(username: str, password: str):
     except sqlite3.Error as er:
         print(er)
     return {"success": success}
+
+
+@app.get("/user_info/{username}")
+def user_info(username: str):
+    cur = con.cursor()
+    cur.execute("SELECT * FROM Users WHERE username=?", (username,))
+    rows = cur.fetchall()
+
+    for row in rows:
+        return{row}
+
+    
