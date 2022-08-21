@@ -85,8 +85,16 @@ def register(username: str, password: str):
 @app.get("/user_info/{username}")
 def user_info(username: str):
     cur = con.cursor()
-    cur.execute("SELECT * FROM Users WHERE username=?", (username,))
+    cur.execute("SELECT * FROM Users WHERE UserID=?", (username,))
     rows = cur.fetchall()
 
     for row in rows:
         return{row} 
+
+@app.get("/user_catagory/{username}/{catagory}")
+def user_catagoty(username: str, catagory: str):
+    cur = con.cursor()
+    cur.execute("SELECT * FROM Users WHERE UserID=? and Catagory=?", (username,),(catagory,))
+    rows = cur.fetchall()
+    for row in rows:
+        return{row}
