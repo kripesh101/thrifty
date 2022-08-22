@@ -9,6 +9,8 @@ authors = [
 dependencies = [
     "fastapi>=0.79.0",
     "uvicorn[standard]>=0.18.2",
+    "passlib[bcrypt]>=1.7.4",
+    "setuptools>=65.1.0",
 ]
 requires-python = ">=3.9"
 license = {text = "MIT"}

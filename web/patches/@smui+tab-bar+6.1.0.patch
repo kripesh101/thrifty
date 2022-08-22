@@ -1,0 +1,13 @@
+diff --git a/node_modules/@smui/tab-bar/src/TabBar.types.ts b/node_modules/@smui/tab-bar/src/TabBar.types.ts
+index 27579f6..73059d3 100644
+--- a/node_modules/@smui/tab-bar/src/TabBar.types.ts
++++ b/node_modules/@smui/tab-bar/src/TabBar.types.ts
+@@ -1,7 +1,7 @@
+ import type { TabScrollerComponentDev } from '@smui/tab-scroller';
+ import type Component from './TabBar.svelte';
+ 
+-export declare class TabBarComponentDev extends Component {
++export declare class TabBarComponentDev<T> extends Component<T> {
+   /**
+    * @private
+    * For type checking capabilities only.
