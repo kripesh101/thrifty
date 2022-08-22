@@ -77,8 +77,7 @@ def generateSessionTokenWithCookieResponse(user: UserCredentials):
 
         # Set samesite to none only in the HTTPS-enabled production environment
         samesite="none" if prod else "lax",
-        secure=prod,
-        domain="thrifty.pages.dev" if prod else None
+        secure=prod
     )
 
     hashed_token = sha512(token.encode("utf-8")).hexdigest()
@@ -173,7 +172,13 @@ def logout(user: User = Depends(get_user)):
     con.close()
 
     res = JSONResponse({"success": True})
-    res.delete_cookie("session")
+    res.delete_cookie(
+        key="session",
+        
+        # Set samesite to none only in the HTTPS-enabled production environment
+        samesite="none" if prod else "lax",
+        secure=prod
+    )
     return res
 
 class UserExpenseEntry(BaseModel):
