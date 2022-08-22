@@ -182,6 +182,7 @@ class UserExpenseEntry(BaseModel):
     time: Union[int, None]
 
 
+# TODO add proper responses here
 @app.post("/expenses/create/")
 def create_expense(expense: UserExpenseEntry, user: User = Depends(get_user)):
     db_error = HTTPException(
@@ -202,3 +203,23 @@ def create_expense(expense: UserExpenseEntry, user: User = Depends(get_user)):
     except sqlite3.Error as er:
         print(er)
         raise db_error
+
+
+# Amazing Akira code:
+
+@app.get("/user_info/{username}")
+def user_info(username: str):
+    cur = con.cursor()
+    cur.execute("SELECT * FROM Users WHERE UserID=?", (username,))
+    rows = cur.fetchall()
+
+    for row in rows:
+        return{row} 
+
+@app.get("/user_catagory/{username}/{catagory}")
+def user_catagoty(username: str, catagory: str):
+    cur = con.cursor()
+    cur.execute("SELECT * FROM Users WHERE UserID=? and Catagory=?", (username,),(catagory,))
+    rows = cur.fetchall()
+    for row in rows:
+        return{row}
