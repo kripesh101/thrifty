@@ -1,6 +1,13 @@
 @font-face {
-    font-family: "Sansation";
+    font-family: "Montserrat";
     font-style: normal;
-    font-weight: bold;
-    src: url("/Sansation_Bold.ttf") format("truetype");
+    font-weight: 400;
+    src: url("/Montserrat-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 600;
+    src: url("/Montserrat-SemiBold.ttf") format("truetype");
 }

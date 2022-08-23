@@ -12,8 +12,12 @@
 );
 
 @use "@material/typography" with (
-    $font-family: unquote("Sansation")
+    $font-family: unquote("Montserrat")
 );
+
+span.mdc-button__label {
+    font-weight: 600;
+}
 
 .error .mdc-snackbar__surface {
     background-color: theme.$error;
