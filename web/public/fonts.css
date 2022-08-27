@@ -11,3 +11,10 @@
     font-weight: 600;
     src: url("/Montserrat-SemiBold.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "Azonix";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/Azonix.otf") format("opentype");
+}

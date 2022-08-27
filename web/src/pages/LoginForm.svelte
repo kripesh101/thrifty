@@ -16,7 +16,6 @@
     async function handleFormSubmit(event) {
         disabled = true;
 
-        event.preventDefault();
         const form = event.currentTarget;
         const formData = new FormData(form);
         const response = await postForm(form.action, formData);
@@ -44,7 +43,7 @@
     </Actions>
 </Snackbar>
 
-<form action="/login/" on:submit={handleFormSubmit}>
+<form action="/login/" on:submit|preventDefault={handleFormSubmit}>
     <div>
         <Textfield
             bind:disabled

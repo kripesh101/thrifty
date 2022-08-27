@@ -9,9 +9,13 @@
     let active = "Login";
 </script>
 
-<h2 style="line-height:0">THRIFTY</h2>
+<picture>
+    <source srcset="/thrifty-dark.svg" media="(prefers-color-scheme:dark)" />
+    <img src="/thrifty.svg" alt="Thrifty Logo" />
+</picture>
 
-<Paper>
+<h2>THRIFTY</h2>
+<Paper style="padding-top: 16px; padding-bottom: 16px;">
     <div>
         <TabBar tabs={["Login", "Register"]} let:tab bind:active>
             <Tab {tab}>
@@ -33,5 +37,13 @@
     div {
         padding: 10px;
         align-self: center;
+    }
+    img {
+        height: 120px;
+    }
+    h2 {
+        margin: 0 0 10px 0;
+        font-family: "Azonix";
+        font-size: 4em;
     }
 </style>
