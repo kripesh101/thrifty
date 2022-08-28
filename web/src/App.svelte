@@ -25,13 +25,30 @@
 </script>
 
 <main>
-    {#if $state === "loggedout"}
-        <RegisterForm />
-    {:else if $state === "loggedin"}
+    {#if $state === "loggedin"}
         <Homepage />
-    {:else if $state === "waiting"}
-        <div>
-            <CircularProgress style="height: 32px; width: 32px;" indeterminate />
+    {:else}
+        <div class="container">
+            <div class="item">
+                {#if $state === "loggedout"}
+                    <RegisterForm />
+                {:else if $state === "waiting"}
+                    <CircularProgress style="height: 32px; width: 32px;" indeterminate />
+                {/if}
+            </div>
         </div>
     {/if}
 </main>
+
+<style>
+    .container {
+        display: flex;
+        place-items: center;
+        min-width: 320px;
+        min-height: 100vh;
+    }
+
+    .item {
+        margin: 0 auto;
+    }
+</style>

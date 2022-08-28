@@ -15,18 +15,30 @@
     $font-family: unquote("Montserrat")
 );
 
+// Make --mdc-theme-surface available for use by HTML elements
+:root {
+    --mdc-theme-surface: #{theme.$surface};
+}
+
+// Top app bar title font adjustments
+span.mdc-top-app-bar__title {
+    color: theme.$on-primary;
+    font-family: "Azonix";
+    font-weight: 600;
+}
+
+// Bolder button font
 span.mdc-button__label {
     font-weight: 600;
 }
 
+// Custom Error Snackbar
 .error .mdc-snackbar__surface {
     background-color: theme.$error;
 }
-
-.error .mdc-snackbar__label {
+.error .mdc-snackbar__surface .mdc-snackbar__label {
     color: theme.$on-primary;
 }
-
 .error .mdc-snackbar__dismiss {
     color: theme.$on-primary;
 }
