@@ -4,6 +4,13 @@
     import IconButton from "@smui/icon-button";
     import { state } from "../stores";
     import backend from "../lib/backend";
+    import Button, { Label, Icon } from "@smui/button";
+    import Expense from "../lib/Expense.svelte";
+    import Paper from "@smui/paper";
+    import record from "../lib/expenses.json";
+
+    let expenses;
+    expenses = record;
 
     let topAppBar;
 
@@ -49,7 +56,30 @@
                 </div>
             </div>
         </Cell>
-        <Cell spanDevices={{ desktop: 6, tablet: 4 }}>test</Cell>
+        <Cell spanDevices={{ desktop: 6, tablet: 4 }}>
+            <!-- Graph will be here -->
+            <img
+                src="https://images.squarespace-cdn.com/content/v1/55b6a6dce4b089e11621d3ed/1585087896250-R3GZ6OFWYQRZUJRCJU3D/produce_monthly.png?format=1000w"
+                alt="graph"
+            />
+        </Cell>
+        <Cell spanDevices={{ desktop: 6, tablet: 4 }}>
+            <div style="padding: 1em;">
+                <Button variant="raised" style="padding: 20px;">
+                    <Icon class="material-symbols-rounded">add</Icon>
+                    <Label>ADD EXPENSES</Label>
+                </Button>
+            </div>
+            <Paper>
+                <h6 style="line-height: 1.6; text-align: left; margin: auto; font-weight: 600;">
+                    History
+                </h6>
+                <Expense />
+                {#each expenses as data}
+                    <Expense {data} />
+                {/each}
+            </Paper>
+        </Cell>
     </LayoutGrid>
 </AutoAdjust>
 
@@ -97,7 +127,11 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 200;
+        z-index: 3;
+    }
+
+    img {
+        width: 100%;
     }
 
     div.text {
