@@ -1,0 +1,26 @@
+import sqlite3
+from fastapi import Depends, APIRouter
+
+import db.core as db
+from db.models import UserExpenseEntry, User
+from routes.dependencies import get_user
+from utils.exceptions import db_exception
+from utils.time import time_ms
+
+router = APIRouter()
+
+# TODO add proper responses here
+@router.post("/expenses/create/")
+def create_expense(expense: UserExpenseEntry, user: User = Depends(get_user)):
+
+    if expense.time is None:
+        expense.time = time_ms()
+
+    print(expense)
+    try:        
+        con, cur = db.get_both()
+        cur.execute("INSERT INTO Expenses VALUES (?, ?, ?, ?)", (user.id, expense.cost, expense.time, expense.category))
+        db.safe_close(con)
+    except sqlite3.Error as er:
+        print(er)
+        raise db_exception

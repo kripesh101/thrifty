@@ -21,7 +21,7 @@
         const response = await postForm(form.action, formData);
 
         if (response.ok) {
-            if ((await response.json()).success) {
+            if ((await response.json()) === true) {
                 disabled = false;
                 $state = "loggedin";
                 return;

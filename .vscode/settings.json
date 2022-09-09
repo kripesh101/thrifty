@@ -12,5 +12,6 @@
     },
     "eslint.validate": [
         "svelte"
-    ]
+    ],
+    "task.allowAutomaticTasks": "on"
 }

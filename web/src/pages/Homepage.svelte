@@ -20,7 +20,7 @@
             credentials: "include",
             mode: "cors"
         });
-        if ((await res.json()).success) {
+        if ((await res.json()) === true) {
             $state = "loggedout";
         }
     }
