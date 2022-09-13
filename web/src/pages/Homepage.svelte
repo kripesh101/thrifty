@@ -9,6 +9,9 @@
     import Paper from "@smui/paper";
     import record from "../lib/expenses.json";
     import AddExpenses from "./AddExpenses.svelte";
+    import { getContext } from "svelte";
+
+    const snackbar = getContext("snackbar");
 
     let expenses;
     expenses = record;
@@ -23,6 +26,7 @@
         });
         if ((await res.json()) === true) {
             $state = "loggedout";
+            snackbar("Logged out.", "success");
         }
     }
 

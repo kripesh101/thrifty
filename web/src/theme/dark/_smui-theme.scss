@@ -41,6 +41,17 @@ span.mdc-top-app-bar__title {
     color: theme.$on-primary;
 }
 
+// Custom Success Snackbar
+.success .mdc-snackbar__surface {
+    background-color: color-palette.$green-800
+}
+.success .mdc-snackbar__surface .mdc-snackbar__label {
+    color: theme.$on-primary;
+}
+.success .mdc-snackbar__dismiss {
+    color: theme.$on-primary;
+}
+
 //
 // Some defaults that may be helpful to you.
 // If you just want to use these, and not the classes, you can instead just

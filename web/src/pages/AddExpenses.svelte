@@ -38,7 +38,7 @@
 
         if (response.ok) {
             if ((await response.json()) === true) {
-                snackbar("Successfully created new expense entry!", false);
+                snackbar("Created new expense entry.", "success");
                 disabled = false;
                 open = false;
                 return;
@@ -86,7 +86,8 @@
                             variant="outlined"
                             class="full-width"
                             required
-                            min={0.01}
+                            input$min={0.01}
+                            input$step={0.01}
                         >
                             <Icon class="material-symbols-rounded" slot="leadingIcon">payments</Icon
                             >

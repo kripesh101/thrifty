@@ -25,9 +25,9 @@
         $state = "loggedout";
     });
 
-    let snackbar, snackbarText, snackbarError;
+    let snackbar, snackbarText, snackbarClass;
 
-    setContext("snackbar", async (msg, error = true) => {
+    setContext("snackbar", async (msg, classes = "error") => {
         // Close current snackbar (if open)
         snackbar.close();
 
@@ -39,7 +39,7 @@
 
         // Update props
         snackbarText = msg;
-        snackbarError = error;
+        snackbarClass = classes;
 
         // Open snackbar
         snackbar.open();
@@ -47,7 +47,7 @@
 </script>
 
 <main>
-    <Snackbar bind:this={snackbar} class={snackbarError ? "error" : ""}>
+    <Snackbar bind:this={snackbar} class={snackbarClass}>
         <Label>{snackbarText}</Label>
         <Actions>
             <IconButton class="material-symbols-rounded" title="Dismiss">close</IconButton>

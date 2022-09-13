@@ -20,7 +20,7 @@
 
         if (response.ok) {
             if ((await response.json()) === true) {
-                snackbar("");
+                snackbar("Login successful.", "success");
                 disabled = false;
                 $state = "loggedin";
                 return;

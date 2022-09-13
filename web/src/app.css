@@ -47,3 +47,8 @@ span.mdc-top-app-bar__title {
 .mdc-select__menu > ul {
     max-height: 38vh;
 }
+
+/* Text align for Snackbar */
+.mdc-snackbar {
+    text-align: left;
+}
