@@ -17,8 +17,10 @@
     "devDependencies": {
         "@smui/button": "^6.0.0",
         "@smui/circular-progress": "^6.1.0",
+        "@smui/dialog": "^6.1.0",
         "@smui/layout-grid": "^6.1.0",
         "@smui/paper": "^6.0.0",
+        "@smui/select": "^6.1.0",
         "@smui/snackbar": "^6.1.0",
         "@smui/tab": "^6.1.0",
         "@smui/tab-bar": "^6.1.0",

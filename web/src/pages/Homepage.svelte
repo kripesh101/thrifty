@@ -8,6 +8,7 @@
     import Expense from "../lib/Expense.svelte";
     import Paper from "@smui/paper";
     import record from "../lib/expenses.json";
+    import AddExpenses from "./AddExpenses.svelte";
 
     let expenses;
     expenses = record;
@@ -24,9 +25,16 @@
             $state = "loggedout";
         }
     }
+
+    let expensesDialogOpen = false;
+    function openExpensesDialog() {
+        expensesDialogOpen = true;
+    }
 </script>
 
-<TopAppBar bind:this={topAppBar} variant="standard" dense>
+<AddExpenses bind:open={expensesDialogOpen} />
+
+<TopAppBar bind:this={topAppBar} variant="fixed" dense>
     <Row>
         <Section>
             <Title>THRIFTY</Title>
@@ -65,7 +73,7 @@
         </Cell>
         <Cell spanDevices={{ desktop: 6, tablet: 4 }}>
             <div style="padding: 1em;">
-                <Button variant="raised" style="padding: 20px;">
+                <Button variant="raised" style="padding: 20px;" on:click={openExpensesDialog}>
                     <Icon class="material-symbols-rounded">add</Icon>
                     <Label>ADD EXPENSES</Label>
                 </Button>

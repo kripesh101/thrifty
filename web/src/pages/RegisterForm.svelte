@@ -2,65 +2,48 @@
     import Textfield from "@smui/textfield";
     import HelperText from "@smui/textfield/helper-text";
     import Button, { Label } from "@smui/button";
-    import Snackbar, { Actions } from "@smui/snackbar";
-    import IconButton from "@smui/icon-button";
     import Icon from "@smui/textfield/icon";
 
     import { postForm } from "../lib/backend.js";
-    import { onMount } from "svelte";
+    import { getContext } from "svelte";
     import { state } from "../stores.js";
 
     let username = "";
     let password = "";
     let repassword = "";
 
+    const snackbar = getContext("snackbar");
     async function handleFormSubmit(event) {
         disabled = true;
 
-        const form = event.currentTarget;
-        const formData = new FormData(form);
-        const response = await postForm(form.action, formData);
+        const response = await postForm(event);
 
         if (response.ok) {
             if ((await response.json()) === true) {
+                snackbar("");
                 disabled = false;
                 $state = "loggedin";
                 return;
             }
         }
-        snackbar.open();
+        snackbar("Error during registration. Username may already be taken.");
 
         disabled = false;
     }
 
     let disabled = false;
-    let snackbar;
 
     let re;
-    let mounted = false;
-
-    onMount(() => {
-        mounted = true;
-    });
 
     // Re-enter Password field validation
     $: invalid = password !== repassword;
-    $: if (mounted) {
-        re.getElement().setCustomValidity(invalid ? "Passwords do not match" : "");
-    }
+    $: if (re) re.getElement().setCustomValidity(invalid ? "Passwords do not match" : "");
 </script>
-
-<Snackbar bind:this={snackbar} class="error">
-    <Label>Error during registration. Username may already be taken.</Label>
-    <Actions>
-        <IconButton class="material-symbols-rounded" title="Dismiss">close</IconButton>
-    </Actions>
-</Snackbar>
 
 <form action="/register/" on:submit|preventDefault={handleFormSubmit}>
     <div>
         <Textfield
-            bind:disabled
+            {disabled}
             bind:value={username}
             input$name="id"
             input$maxlength={20}
@@ -93,7 +76,7 @@
             input$title="3 to 80 characters."
             input$maxlength={80}
             required
-            bind:disabled
+            {disabled}
             updateInvalid
         >
             <Icon class="material-symbols-rounded" slot="leadingIcon">lock</Icon>
@@ -108,7 +91,7 @@
             label="Re-enter Password"
             variant="outlined"
             type="password"
-            bind:disabled
+            {disabled}
             required
             bind:invalid
         >
@@ -117,7 +100,7 @@
         </Textfield>
 
         <div>
-            <Button bind:disabled variant="raised" style="padding: 20px;">
+            <Button {disabled} variant="raised" style="padding: 20px;">
                 <Label>Register</Label>
             </Button>
         </div>

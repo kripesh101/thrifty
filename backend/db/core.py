@@ -26,9 +26,11 @@ def init():
     # Table 2: expenses table
     cur.execute('''CREATE TABLE IF NOT EXISTS Expenses(
         UserID TEXT,
+        Title TEXT,
         Cost INTEGER,
-        Time INTEGER, 
+        Time INTEGER,
         Category TEXT,
+        Description TEXT,
         FOREIGN KEY (UserID) REFERENCES Users(UserID)
     )''')
 

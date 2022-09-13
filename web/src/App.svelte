@@ -1,9 +1,11 @@
 <script>
+    import Snackbar, { Actions, Label } from "@smui/snackbar";
+    import IconButton from "@smui/icon-button";
+    import CircularProgress from "@smui/circular-progress";
     import Homepage from "./pages/Homepage.svelte";
     import RegisterForm from "./pages/LandingPage.svelte";
-    import CircularProgress from "@smui/circular-progress";
-    import { onMount } from "svelte";
     import backend from "./lib/backend.js";
+    import { onMount, setContext } from "svelte";
     import { state } from "./stores.js";
 
     // waiting | not_loggedin | loggedin
@@ -22,9 +24,36 @@
         }
         $state = "loggedout";
     });
+
+    let snackbar, snackbarText, snackbarError;
+
+    setContext("snackbar", async (msg, error = true) => {
+        // Close current snackbar (if open)
+        snackbar.close();
+
+        // Only close snackbar if empty msg
+        if (msg === "") return;
+
+        // Wait 0.05s (for closing animation)
+        await new Promise((r) => setTimeout(r, 50));
+
+        // Update props
+        snackbarText = msg;
+        snackbarError = error;
+
+        // Open snackbar
+        snackbar.open();
+    });
 </script>
 
 <main>
+    <Snackbar bind:this={snackbar} class={snackbarError ? "error" : ""}>
+        <Label>{snackbarText}</Label>
+        <Actions>
+            <IconButton class="material-symbols-rounded" title="Dismiss">close</IconButton>
+        </Actions>
+    </Snackbar>
+
     {#if $state === "loggedin"}
         <Homepage />
     {:else}

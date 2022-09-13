@@ -13,14 +13,17 @@ router = APIRouter()
 @router.post("/expenses/create/")
 def create_expense(expense: UserExpenseEntry, user: User = Depends(get_user)):
 
-    if expense.time is None:
-        expense.time = time_ms()
+    if expense.timestamp is None:
+        expense.timestamp = time_ms()
 
-    print(expense)
-    try:        
+    try:
         con, cur = db.get_both()
-        cur.execute("INSERT INTO Expenses VALUES (?, ?, ?, ?)", (user.id, expense.cost, expense.time, expense.category))
+        cur.execute(
+            "INSERT INTO Expenses VALUES (?, ?, ?, ?, ?, ?)",
+            (user.id, expense.title, int(expense.cost * 100), expense.timestamp, expense.category, expense.description)
+        )
         db.safe_close(con)
+        return True
     except sqlite3.Error as er:
         print(er)
         raise db_exception

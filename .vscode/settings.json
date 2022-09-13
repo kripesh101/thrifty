@@ -13,5 +13,8 @@
     "eslint.validate": [
         "svelte"
     ],
-    "task.allowAutomaticTasks": "on"
+    "task.allowAutomaticTasks": "on",
+    "files.exclude": {
+        "**/__pycache__": true
+    }
 }

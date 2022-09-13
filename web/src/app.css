@@ -15,3 +15,35 @@ body {
     margin: 0;
     text-align: center;
 }
+
+/* Fixes & adjustments for Svelte Material UI */
+
+/* full-width class for Textfield */
+.mdc-text-field.full-width {
+    width: 100%;
+}
+
+/* full-width class for Select */
+.mdc-select.full-width {
+    width: 100%;
+}
+
+/* Bolder button font */
+span.mdc-button__label {
+    font-weight: 600;
+}
+
+/* Top app bar title font adjustments */
+span.mdc-top-app-bar__title {
+    font-family: "Azonix";
+    font-weight: 600;
+}
+
+/* Fix Select menu in dialog */
+.mdc-dialog__content {
+    overflow: visible;
+}
+
+.mdc-select__menu > ul {
+    max-height: 38vh;
+}

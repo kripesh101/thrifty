@@ -28,13 +28,6 @@ header.mdc-top-app-bar {
 // Top app bar title font adjustments
 span.mdc-top-app-bar__title {
     color: theme.$on-primary;
-    font-family: "Azonix";
-    font-weight: 600;
-}
-
-// Bolder button font
-span.mdc-button__label {
-    font-weight: 600;
 }
 
 // Custom Error Snackbar

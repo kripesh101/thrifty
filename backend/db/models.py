@@ -1,5 +1,5 @@
 from typing import Union
-from pydantic import BaseModel, constr, conint
+from pydantic import BaseModel, constr, condecimal
 
 class UserCredentials(BaseModel):
     """User data transmitted from client to server"""
@@ -16,6 +16,8 @@ class User(BaseModel):
 
 
 class UserExpenseEntry(BaseModel):
-    cost: conint(gt=0)
-    category: str = "Others"
-    time: Union[int, None]
+    cost: condecimal(gt=0, decimal_places=2)
+    category: str
+    title: str
+    timestamp: Union[int, None]
+    description: Union[str, None]
