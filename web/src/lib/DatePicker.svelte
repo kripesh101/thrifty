@@ -43,7 +43,7 @@
         bind:input={date}
         {disabled}
         on:change={updateTime}
-        on:click={showPicker}
+        on:click$preventDefault={showPicker}
         label="Date"
         type="date"
         variant="outlined"
@@ -55,7 +55,7 @@
         bind:input={time}
         {disabled}
         on:change={updateTime}
-        on:click={showPicker}
+        on:click$preventDefault={showPicker}
         label="Time"
         type="time"
         variant="outlined"

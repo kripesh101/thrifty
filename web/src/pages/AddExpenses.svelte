@@ -139,7 +139,7 @@
                         <Textfield
                             {disabled}
                             textarea
-                            value={currentData.description}
+                            bind:value={currentData.description}
                             input$name="description"
                             label="Description"
                             variant="outlined"
