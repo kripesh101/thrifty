@@ -31,6 +31,7 @@
     copyData();
 
     const snackbar = getContext("snackbar");
+    const refresh = getContext("refresh");
     async function handleFormSubmit(event) {
         disabled = true;
 
@@ -39,6 +40,7 @@
         if (response.ok) {
             if ((await response.json()) === true) {
                 snackbar("Created new expense entry.", "success");
+                refresh();
                 disabled = false;
                 open = false;
                 return;
@@ -119,12 +121,12 @@
                             {disabled}
                             on:SMUISelect:change={() => {
                                 if (!titleEdited) {
-                                    currentData.title = categories[currentData.category];
+                                    currentData.title = categories[currentData.category].title;
                                 }
                             }}
                         >
                             {#each Object.keys(categories) as category}
-                                <Option value={category}>{categories[category]}</Option>
+                                <Option value={category}>{categories[category].title}</Option>
                             {/each}
                         </Select>
                     </div>

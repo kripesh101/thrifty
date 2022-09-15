@@ -17,7 +17,7 @@ class User(BaseModel):
 
 class UserExpenseEntry(BaseModel):
     cost: condecimal(gt=0, decimal_places=2)
-    category: str
+    category: str = "others"
     title: str
     timestamp: Union[int, None]
     description: Union[str, None]

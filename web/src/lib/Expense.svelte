@@ -1,5 +1,6 @@
 <script>
     import { Icon } from "@smui/button";
+    import categories from "../data/categories.json";
 
     export let data = {
         category: "restaurant",
@@ -30,7 +31,7 @@
 <div class="container">
     <div class="icon">
         <Icon style="font-size: min(2.5em, 8vmin);" class="material-symbols-rounded"
-            >{data.category}</Icon
+            >{categories[data.category].icon}</Icon
         >
     </div>
     <div class="info">

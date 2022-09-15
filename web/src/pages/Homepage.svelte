@@ -7,14 +7,11 @@
     import Button, { Label, Icon } from "@smui/button";
     import Expense from "../lib/Expense.svelte";
     import Paper from "@smui/paper";
-    import record from "../lib/expenses.json";
     import AddExpenses from "./AddExpenses.svelte";
-    import { getContext } from "svelte";
+    import { getContext, onMount, setContext } from "svelte";
+    import { getThisWeek, getToday } from "../lib/date";
 
     const snackbar = getContext("snackbar");
-
-    let expenses;
-    expenses = record;
 
     let topAppBar;
 
@@ -34,6 +31,44 @@
     function openExpensesDialog() {
         expensesDialogOpen = true;
     }
+
+    let weekTotal;
+    let todayTotal;
+    let expenses;
+    function refresh() {
+        weekTotal = "XXXX";
+        todayTotal = "XXXX";
+        expenses = "loading";
+
+        function expensesFetch(path = "") {
+            return fetch(backend + "/expenses/" + path, { credentials: "include" });
+        }
+
+        function fetchTotal(obj) {
+            return expensesFetch(`total/?timestamp_start=${obj.start}&timestamp_end=${obj.end}`);
+        }
+
+        fetchTotal(getThisWeek()).then(async (res) => {
+            weekTotal = await res.json();
+        });
+
+        fetchTotal(getToday()).then(async (res) => {
+            todayTotal = await res.json();
+        });
+
+        expensesFetch().then(async (res) => {
+            const temp = await res.json();
+
+            // Descending sort
+            expenses = temp.sort((a, b) => {
+                return b.timestamp - a.timestamp;
+            });
+        });
+    }
+
+    setContext("refresh", refresh);
+
+    onMount(refresh);
 </script>
 
 <AddExpenses bind:open={expensesDialogOpen} />
@@ -55,7 +90,8 @@
             <div class="mainInfo">
                 <div class="text">
                     <h6>
-                        THIS WEEK<br />Rs. 7500
+                        THIS WEEK<br />
+                        Rs. {weekTotal}
                     </h6>
                 </div>
                 <div class="circle">
@@ -63,7 +99,7 @@
                 </div>
                 <div class="text">
                     <h6>
-                        TODAY<br />Rs. 1500
+                        TODAY<br />Rs. {todayTotal}
                     </h6>
                 </div>
             </div>
@@ -86,10 +122,16 @@
                 <h6 style="line-height: 1.6; text-align: left; margin: auto; font-weight: 600;">
                     History
                 </h6>
-                <Expense />
-                {#each expenses as data}
-                    <Expense {data} />
-                {/each}
+                {#if expenses instanceof Array}
+                    <!-- Loaded content from server -->
+                    {#each expenses.slice(0, 3) as data}
+                        <Expense {data} />
+                    {:else}
+                        <i>No entries.</i>
+                    {/each}
+                {:else}
+                    Loading...
+                {/if}
             </Paper>
         </Cell>
     </LayoutGrid>

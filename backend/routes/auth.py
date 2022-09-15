@@ -12,7 +12,7 @@ from routes.dependencies import get_user
 from db import core as db
 from db.models import User, UserCredentials
 
-router = APIRouter()
+router = APIRouter(tags=["credentials"])
 pw_context = CryptContext(schemes=["bcrypt"])
 
 def generateSessionTokenWithCookieResponse(user: UserCredentials):

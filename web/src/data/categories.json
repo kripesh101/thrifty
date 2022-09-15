@@ -1,6 +1,18 @@
 {
-    "restaurant": "Restaurant",
-    "movie": "Entertainment",
-    "shopping_cart": "Shopping",
-    "payments": "Others"
+    "restaurant": {
+        "title": "Restaurant",
+        "icon": "Restaurant"
+    },
+    "entertainment": {
+        "title": "Entertainment",
+        "icon": "movie"
+    },
+    "shopping": {
+        "title": "Shopping",
+        "icon": "shopping_cart"
+    },
+    "others": {
+        "title": "Others",
+        "icon": "payments"
+    }
 }
