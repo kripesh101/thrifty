@@ -29,8 +29,8 @@ def generateSessionTokenWithCookieResponse(user: UserCredentials):
         # 14 days max age for cookie
         max_age=14*86400,
 
-        # Set samesite to none only in the HTTPS-enabled production environment
-        samesite="none" if prod else "lax",
+        # Set samesite to strict
+        samesite="strict",
         secure=prod
     )
 
@@ -66,12 +66,13 @@ def register(user: UserCredentials):
 def login(user: UserCredentials):
     try:
         con, cur = db.get_both()
-        cur.execute("SELECT Password FROM Users WHERE UserID=? COLLATE NOCASE", (user.id,))
-        db_password = cur.fetchone()
+        cur.execute("SELECT UserID, Password FROM Users WHERE UserID=? COLLATE NOCASE", (user.id,))
+        db_user = cur.fetchone()
         con.close()
         
-        if (db_password is not None):
-            if (pw_context.verify(user.password, db_password[0])):
+        if (db_user is not None):
+            if (pw_context.verify(user.password, db_user[1])):
+                user.id = db_user[0] # Update ID with correct ID from database
                 return generateSessionTokenWithCookieResponse(user)
         
     except sqlite3.Error as er:
@@ -93,9 +94,7 @@ def logout(user: User = Depends(get_user)):
     res = JSONResponse(True)
     res.delete_cookie(
         key="session",
-        
-        # Set samesite to none only in the HTTPS-enabled production environment
-        samesite="none" if prod else "lax",
+        samesite="strict",
         secure=prod
     )
     return res

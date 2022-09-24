@@ -1,6 +1,4 @@
-const backend = import.meta.env.DEV
-    ? window.location.origin + "/api"
-    : "https://testsite.southeastasia.cloudapp.azure.com:3000";
+const backend = window.location.origin + "/api";
 
 export default backend;
 

@@ -57,12 +57,7 @@
         });
 
         expensesFetch().then(async (res) => {
-            const temp = await res.json();
-
-            // Descending sort
-            expenses = temp.sort((a, b) => {
-                return b.timestamp - a.timestamp;
-            });
+            expenses = await res.json();
         });
     }
 
@@ -124,7 +119,7 @@
                 </h6>
                 {#if expenses instanceof Array}
                     <!-- Loaded content from server -->
-                    {#each expenses.slice(0, 3) as data}
+                    {#each expenses as data}
                         <Expense {data} />
                     {:else}
                         <i>No entries.</i>

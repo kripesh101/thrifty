@@ -11,6 +11,10 @@
         "title": "Shopping",
         "icon": "shopping_cart"
     },
+    "transportation": {
+        "title": "Transportation",
+        "icon": "directions_bus"
+    },
     "others": {
         "title": "Others",
         "icon": "payments"

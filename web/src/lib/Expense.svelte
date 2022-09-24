@@ -1,5 +1,6 @@
 <script>
     import { Icon } from "@smui/button";
+    import Ripple from "@smui/ripple";
     import categories from "../data/categories.json";
 
     export let data = {
@@ -28,7 +29,7 @@
     }
 </script>
 
-<div class="container">
+<div use:Ripple={{ surface: true }} tabindex="0" class="container">
     <div class="icon">
         <Icon style="font-size: min(2.5em, 8vmin);" class="material-symbols-rounded"
             >{categories[data.category].icon}</Icon

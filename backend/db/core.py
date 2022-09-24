@@ -18,14 +18,14 @@ def init():
 
     # Create table
     cur.execute('''CREATE TABLE IF NOT EXISTS Users(
-        UserID TEXT PRIMARY KEY,
+        UserID TEXT PRIMARY KEY COLLATE NOCASE,
         Password TEXT,
         WeeklyTarget INTEGER
     )''')
 
     # Table 2: expenses table
     cur.execute('''CREATE TABLE IF NOT EXISTS Expenses(
-        UserID TEXT,
+        UserID TEXT COLLATE NOCASE,
         Title TEXT,
         Cost INTEGER,
         Time INTEGER,
@@ -37,7 +37,7 @@ def init():
     # Table 3: sessions table
     cur.execute('''CREATE TABLE IF NOT EXISTS Sessions(
         Token TEXT PRIMARY KEY,
-        UserID TEXT,
+        UserID TEXT COLLATE NOCASE,
         Timestamp INTEGER,
         FOREIGN KEY (UserID) REFERENCES Users(UserID)
     )''')
