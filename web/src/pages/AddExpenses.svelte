@@ -10,6 +10,7 @@
     import { getContext } from "svelte";
     import categories from "../data/categories.json";
     import { postForm } from "../lib/backend";
+    import { fakeFocusIOS } from "../lib/hacks";
 
     let disabled = false;
     export let data = {
@@ -23,10 +24,13 @@
 
     let currentData;
     let titleEdited;
+    let focus;
 
-    function copyData() {
+    function copyData(event) {
         currentData = structuredClone(data);
         titleEdited = false;
+
+        if (event) fakeFocusIOS();
     }
     copyData();
 
@@ -47,8 +51,9 @@
             }
         }
 
-        snackbar("Error creating entry. Please try again.");
-
+        snackbar(
+            "Error creating entry. Please ensure all required fields are filled out and try again."
+        );
         disabled = false;
     }
 </script>
@@ -60,6 +65,7 @@
         aria-labelledby="title"
         aria-describedby="content"
         on:SMUIDialog:opening={copyData}
+        on:SMUIDialog:opened={focus}
         scrimClickAction={disabled ? "" : "cancel"}
         escapeKeyAction={disabled ? "" : "cancel"}
     >
@@ -77,38 +83,39 @@
         </Header>
         <Content id="content">
             <div class="form">
+                <div class="input-container">
+                    <Textfield
+                        {disabled}
+                        bind:value={currentData.cost}
+                        type="number"
+                        input$name="cost"
+                        label="Cost"
+                        variant="outlined"
+                        class="full-width"
+                        required
+                        input$min={0.01}
+                        input$step={0.01}
+                        input$inputmode="decimal"
+                        bind:focus
+                    >
+                        <Icon class="material-symbols-rounded" slot="leadingIcon">payments</Icon>
+                    </Textfield>
+                </div>
+                <div class="input-container">
+                    <Textfield
+                        {disabled}
+                        bind:value={currentData.title}
+                        input$name="title"
+                        label="Title"
+                        variant="outlined"
+                        class="full-width"
+                        required
+                        on:change={() => {
+                            titleEdited = true;
+                        }}
+                    />
+                </div>
                 {#if open}
-                    <div class="input-container">
-                        <Textfield
-                            {disabled}
-                            bind:value={currentData.cost}
-                            type="number"
-                            input$name="cost"
-                            label="Cost"
-                            variant="outlined"
-                            class="full-width"
-                            required
-                            input$min={0.01}
-                            input$step={0.01}
-                        >
-                            <Icon class="material-symbols-rounded" slot="leadingIcon">payments</Icon
-                            >
-                        </Textfield>
-                    </div>
-                    <div class="input-container">
-                        <Textfield
-                            {disabled}
-                            bind:value={currentData.title}
-                            input$name="title"
-                            label="Title"
-                            variant="outlined"
-                            class="full-width"
-                            required
-                            on:change={() => {
-                                titleEdited = true;
-                            }}
-                        />
-                    </div>
                     <div class="input-container">
                         <Select
                             bind:value={currentData.category}
@@ -137,19 +144,19 @@
                             bind:dateTime={currentData.timestamp}
                         />
                     </div>
-                    <div class="input-container">
-                        <Textfield
-                            {disabled}
-                            textarea
-                            bind:value={currentData.description}
-                            input$name="description"
-                            label="Description"
-                            variant="outlined"
-                            class="full-width"
-                            input$rows={6}
-                        />
-                    </div>
                 {/if}
+                <div class="input-container">
+                    <Textfield
+                        {disabled}
+                        textarea
+                        bind:value={currentData.description}
+                        input$name="description"
+                        label="Description"
+                        variant="outlined"
+                        class="full-width"
+                        input$rows={6}
+                    />
+                </div>
             </div>
         </Content>
         <Actions>

@@ -5,7 +5,7 @@ from routes import auth, expenses
 
 db.init()
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 app.include_router(auth.router)
 app.include_router(expenses.router)
