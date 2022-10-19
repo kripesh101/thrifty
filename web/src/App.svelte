@@ -4,7 +4,7 @@
     import CircularProgress from "@smui/circular-progress";
     import Homepage from "./pages/Homepage.svelte";
     import RegisterForm from "./pages/LandingPage.svelte";
-    import backend from "./lib/backend.js";
+    import fetchBackend from "./lib/backend.js";
     import { onMount, setContext } from "svelte";
     import { state } from "./stores.js";
 
@@ -12,10 +12,7 @@
     $state = "waiting";
 
     onMount(async () => {
-        const res = await fetch(backend + "/is_logged_in/", {
-            credentials: "include",
-            mode: "cors"
-        });
+        const res = await fetchBackend("/is_logged_in/");
         if (res.ok) {
             if ((await res.json()) == true) {
                 $state = "loggedin";

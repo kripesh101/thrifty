@@ -3,11 +3,11 @@
     import TopAppBar, { Row, Section, Title, AutoAdjust } from "@smui/top-app-bar";
     import IconButton from "@smui/icon-button";
     import { state } from "../stores";
-    import backend from "../lib/backend";
+    import fetchBackend from "../lib/backend";
     import Button, { Label, Icon } from "@smui/button";
     import Expense from "../lib/Expense.svelte";
     import Paper from "@smui/paper";
-    import AddExpenses from "./AddExpenses.svelte";
+    import ExpensesDialog from "./ExpensesDialog.svelte";
     import { getContext, onMount, setContext } from "svelte";
     import { getThisWeek, getToday } from "../lib/date";
 
@@ -16,32 +16,41 @@
     let topAppBar;
 
     async function logout() {
-        const res = await fetch(backend + "/logout/", {
-            method: "POST",
-            credentials: "include",
-            mode: "cors"
-        });
+        const res = await fetchBackend("/logout/", "post");
         if ((await res.json()) === true) {
             $state = "loggedout";
             snackbar("Logged out.", "success");
         }
     }
 
+    let expensesDialogMode = false;
+    let expensesDialogData = undefined;
     let expensesDialogOpen = false;
-    function openExpensesDialog() {
+
+    function openExpensesDialog(data, editMode = false) {
+        expensesDialogMode = editMode;
+        expensesDialogData = data;
         expensesDialogOpen = true;
     }
 
     let weekTotal;
     let todayTotal;
     let expenses;
-    function refresh() {
-        weekTotal = "XXXX";
-        todayTotal = "XXXX";
-        expenses = "loading";
+    function refresh(visible = true, callback) {
+        if (visible) {
+            weekTotal = "XXXX";
+            todayTotal = "XXXX";
+            expenses = "loading";
+        }
+        let fetchCount = 0;
+
+        function countUp() {
+            fetchCount++;
+            if (fetchCount >= 3) callback();
+        }
 
         function expensesFetch(path = "") {
-            return fetch(backend + "/expenses/" + path, { credentials: "include" });
+            return fetchBackend("/expenses/" + path);
         }
 
         function fetchTotal(obj) {
@@ -50,23 +59,31 @@
 
         fetchTotal(getThisWeek()).then(async (res) => {
             weekTotal = await res.json();
+            countUp();
         });
 
         fetchTotal(getToday()).then(async (res) => {
             todayTotal = await res.json();
+            countUp();
         });
 
         expensesFetch().then(async (res) => {
             expenses = await res.json();
+            countUp();
         });
     }
 
     setContext("refresh", refresh);
+    setContext("openExpensesDialog", openExpensesDialog);
 
     onMount(refresh);
 </script>
 
-<AddExpenses bind:open={expensesDialogOpen} />
+<ExpensesDialog
+    bind:data={expensesDialogData}
+    bind:open={expensesDialogOpen}
+    bind:editMode={expensesDialogMode}
+/>
 
 <TopAppBar bind:this={topAppBar} variant="fixed" dense>
     <Row>
@@ -108,7 +125,11 @@
         </Cell>
         <Cell spanDevices={{ desktop: 6, tablet: 4 }}>
             <div style="padding: 1em;">
-                <Button variant="raised" style="padding: 20px;" on:click={openExpensesDialog}>
+                <Button
+                    variant="raised"
+                    style="padding: 20px;"
+                    on:click={() => openExpensesDialog()}
+                >
                     <Icon class="material-symbols-rounded">add</Icon>
                     <Label>ADD EXPENSES</Label>
                 </Button>

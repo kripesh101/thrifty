@@ -1,6 +1,7 @@
 <script>
     import { Icon } from "@smui/button";
     import Ripple from "@smui/ripple";
+    import { getContext } from "svelte";
     import categories from "../data/categories.json";
 
     export let data = {
@@ -10,6 +11,8 @@
         cost: 350
     };
     let parsedTime = "";
+
+    const openExpensesDialog = getContext("openExpensesDialog");
 
     $: if (data.timestamp) {
         const date = new Date(data.timestamp);
@@ -29,7 +32,12 @@
     }
 </script>
 
-<div use:Ripple={{ surface: true }} tabindex="0" class="container">
+<div
+    use:Ripple={{ surface: true }}
+    on:click={() => openExpensesDialog(data, true)}
+    tabindex="0"
+    class="container"
+>
     <div class="icon">
         <Icon style="font-size: min(2.5em, 8vmin);" class="material-symbols-rounded"
             >{categories[data.category].icon}</Icon
@@ -54,6 +62,7 @@
         border-radius: 4px;
         gap: 16px;
         backdrop-filter: brightness(1.35);
+        -webkit-backdrop-filter: brightness(1.35);
         background-color: transparent;
     }
 
@@ -91,6 +100,7 @@
     @media (prefers-color-scheme: light) {
         .container {
             backdrop-filter: brightness(0.75);
+            -webkit-backdrop-filter: brightness(0.75);
         }
         .icon {
             background-color: #d9d9d9;

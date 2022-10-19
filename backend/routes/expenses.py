@@ -94,3 +94,36 @@ def get_expenses(
             "description": entry[5]
         })
     return res
+
+
+@router.delete("/delete/{expense_id}")
+def delete_expense(expense_id: int, user: User = Depends(get_user)):
+    try:
+        con, cur = db.get_both()
+        cur.execute(
+            "DELETE FROM Expenses WHERE UserID=? AND rowid=?",
+            (user.id, expense_id)
+        )
+        db.safe_close(con)
+        return True
+    except sqlite3.Error as er:
+        print(er)
+        raise db_write_exception
+
+
+@router.put("/edit/{expense_id}")
+def edit_expense(expense: UserExpenseEntry, expense_id: int, user: User = Depends(get_user)):
+    if expense.timestamp is None:
+        expense.timestamp = time_ms()
+
+    try:
+        con, cur = db.get_both()
+        cur.execute(
+            "UPDATE Expenses SET Title=?, Cost=?, Time=?, Category=?, Description=? WHERE UserID=? AND rowid=?",
+            (expense.title, int(expense.cost * 100), expense.timestamp, expense.category, expense.description, user.id, expense_id)
+        )
+        db.safe_close(con)
+        return True
+    except sqlite3.Error as er:
+        print(er)
+        raise db_write_exception

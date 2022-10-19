@@ -15,6 +15,7 @@
     export let name = "time";
     export let dateTime = 0;
     export let disabled = false;
+    export let readonly = false;
 
     function updateTime() {
         const timeObj = time.getElement().valueAsDate;
@@ -34,6 +35,8 @@
 
     let dateText = "";
     let timeText = "";
+
+    $: input$readonly = readonly ? true : null;
 </script>
 
 <input type="hidden" {name} bind:value={dateTime} />
@@ -42,6 +45,7 @@
         bind:value={dateText}
         bind:input={date}
         {disabled}
+        {input$readonly}
         on:change={updateTime}
         on:click$preventDefault={showPicker}
         label="Date"
@@ -54,6 +58,7 @@
         bind:value={timeText}
         bind:input={time}
         {disabled}
+        {input$readonly}
         on:change={updateTime}
         on:click$preventDefault={showPicker}
         label="Time"

@@ -9,52 +9,96 @@
 
     import { getContext } from "svelte";
     import categories from "../data/categories.json";
-    import { postForm } from "../lib/backend";
+    import fetchBackend, { postForm } from "../lib/backend";
     import { fakeFocusIOS } from "../lib/hacks";
 
-    let disabled = false;
-    export let data = {
+    const defaultData = {
         category: "",
         title: "",
         timestamp: 0,
         cost: "",
         description: ""
     };
-    export let open;
 
+    export let data;
+    export let open;
+    export let editMode = false;
+
+    let disabled = false;
     let currentData;
     let titleEdited;
     let focus;
+    let confirmOpen;
 
     function copyData(event) {
+        if (!data) data = defaultData;
         currentData = structuredClone(data);
-        titleEdited = false;
-
-        if (event) fakeFocusIOS();
+        titleEdited = editMode
+            ? currentData.title !== categories[currentData.category].title
+            : false;
+        if (event && !editMode) fakeFocusIOS();
     }
     copyData();
 
     const snackbar = getContext("snackbar");
     const refresh = getContext("refresh");
+
     async function handleFormSubmit(event) {
+        // "Confirm" button clicked
         disabled = true;
 
-        const response = await postForm(event);
-
-        if (response.ok) {
-            if ((await response.json()) === true) {
-                snackbar("Created new expense entry.", "success");
-                refresh();
-                disabled = false;
-                open = false;
-                return;
-            }
+        let response;
+        if (editMode) {
+            response = await postForm(event, "put", `/expenses/edit/${currentData.id}`);
+        } else {
+            response = await postForm(event);
         }
 
-        snackbar(
-            "Error creating entry. Please ensure all required fields are filled out and try again."
-        );
+        if (response.ok && (await response.json()) === true) {
+            if (editMode) {
+                refresh(false, () => {
+                    snackbar("Edited expense entry.", "success");
+                    open = false;
+                    disabled = false;
+                });
+                return;
+            }
+
+            snackbar("Created new expense entry.", "success");
+            refresh();
+            open = false;
+        } else {
+            snackbar(
+                "Error submitting entry. Please ensure all required fields are filled out and try again."
+            );
+        }
+
         disabled = false;
+    }
+
+    async function deleteEntry() {
+        disabled = true;
+
+        const response = await fetchBackend(`/expenses/delete/${currentData.id}`, "delete");
+
+        if (response.ok && (await response.json()) === true) {
+            refresh(false, () => {
+                snackbar("Deleted expense entry.", "success");
+                open = false;
+                disabled = false;
+            });
+            return;
+        } else {
+            snackbar("Error deleting entry. Please try again.");
+        }
+
+        disabled = false;
+    }
+
+    function confirmClose(e) {
+        if (e.detail.action === "accept") {
+            deleteEntry();
+        }
     }
 </script>
 
@@ -65,12 +109,20 @@
         aria-labelledby="title"
         aria-describedby="content"
         on:SMUIDialog:opening={copyData}
-        on:SMUIDialog:opened={focus}
+        on:SMUIDialog:opened={() => {
+            if (!editMode) focus();
+        }}
         scrimClickAction={disabled ? "" : "cancel"}
         escapeKeyAction={disabled ? "" : "cancel"}
     >
         <Header>
-            <Title id="title" style="align-self: stretch; font-weight: 600;">New Expense</Title>
+            <Title id="title" style="align-self: stretch; font-weight: 600;">
+                {#if editMode}
+                    Edit Expense
+                {:else}
+                    New Expense
+                {/if}
+            </Title>
             <IconButton
                 {disabled}
                 action="close"
@@ -148,8 +200,8 @@
                 <div class="input-container">
                     <Textfield
                         {disabled}
-                        textarea
                         bind:value={currentData.description}
+                        textarea
                         input$name="description"
                         label="Description"
                         variant="outlined"
@@ -160,13 +212,56 @@
             </div>
         </Content>
         <Actions>
-            <Button {disabled} action="cancel" type="button">
+            <Button {disabled} type="button">
                 <Label>Cancel</Label>
             </Button>
-            <Button {disabled} action="confirm" on:click$stopPropagation defaultAction>
-                <Label>Confirm</Label>
+
+            {#if editMode}
+                <Button
+                    {disabled}
+                    on:click$stopPropagation={() => {
+                        confirmOpen = true;
+                    }}
+                    type="button"
+                >
+                    <Label>Delete</Label>
+                </Button>
+            {/if}
+
+            <Button {disabled} on:click$stopPropagation defaultAction>
+                <Label>
+                    {#if editMode}
+                        Edit
+                    {:else}
+                        Confirm
+                    {/if}
+                </Label>
             </Button>
         </Actions>
+
+        <Dialog
+            bind:open={confirmOpen}
+            slot="over"
+            on:SMUIDialog:closed={confirmClose}
+            aria-labelledby="confirm-title"
+            aria-describedby="confirm-content"
+            style="text-align: left;"
+        >
+            <Header>
+                <Title id="confirm-title" style="font-weight: 600;">Confirmation</Title>
+            </Header>
+            <Content id="confirm-content">
+                <p>Are you sure you want to delete this expense entry?</p>
+            </Content>
+            <Actions>
+                <Button type="button">
+                    <Label>No</Label>
+                </Button>
+                <Button action="accept" type="button" defaultAction>
+                    <Label>Yes</Label>
+                </Button>
+            </Actions>
+        </Dialog>
     </Dialog>
 </form>
 
