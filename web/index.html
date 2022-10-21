@@ -3,17 +3,87 @@
     <head>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/thrifty.svg" />
-        
-        <!-- Custom Fonts -->
-        <link rel="stylesheet" href="/fonts.css" />
-        
-        <!-- Material Icons -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
-        <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/> -->
+
+        <!-- Fonts -->
+        <style>
+            @font-face {
+                font-family: "Montserrat";
+                font-style: normal;
+                font-weight: 400;
+                src: url(/montserrat-400.woff2) format("woff2");
+            }
+
+            @font-face {
+                font-family: "Montserrat";
+                font-style: normal;
+                font-weight: 600;
+                src: url(/montserrat-600.woff2) format("woff2");
+            }
+
+            @font-face {
+                font-family: "Azonix";
+                font-style: normal;
+                font-weight: 400;
+                src: url(/azonix.woff2) format("woff2");
+            }
+
+            /* cyrillic-ext */
+            @font-face {
+                font-family: "Montserrat";
+                font-style: normal;
+                font-weight: 400 600;
+                src: url(/montserrat-cyrillic-ext.woff2) format("woff2");
+                unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+            }
+            /* cyrillic */
+            @font-face {
+                font-family: "Montserrat";
+                font-style: normal;
+                font-weight: 400 600;
+                src: url(/montserrat-cyrillic.woff2) format("woff2");
+                unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+            }
+            /* vietnamese */
+            @font-face {
+                font-family: "Montserrat";
+                font-style: normal;
+                font-weight: 400 600;
+                src: url(/montserrat-vietnamese.woff2) format("woff2");
+                unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+            }
+            /* latin-ext */
+            @font-face {
+                font-family: "Montserrat";
+                font-style: normal;
+                font-weight: 400 600;
+                src: url(/montserrat-latin-ext.woff2) format("woff2");
+                unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+            }
+
+            @font-face {
+                font-family: 'Material Symbols Rounded';
+                font-style: normal;
+                font-weight: 400;
+                src: url(/material-symbols-rounded.woff2) format('woff2');
+            }
+            .material-symbols-rounded {
+                font-family: 'Material Symbols Rounded';
+                font-weight: normal;
+                font-style: normal;
+                font-size: 24px;
+                display: inline-block;
+                line-height: 1;
+                text-transform: none;
+                letter-spacing: normal;
+                word-wrap: normal;
+                white-space: nowrap;
+                direction: ltr;
+            }
+        </style>
 
         <!-- Svelte Material UI Style Sheets -->
         <link rel="stylesheet" href="/smui.css" media="(prefers-color-scheme: light)" />
-        <link rel="stylesheet" href="/smui-dark.css" media="screen and (prefers-color-scheme: dark)"/>
+        <link rel="stylesheet" href="/smui-dark.css" media="screen and (prefers-color-scheme: dark)" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Thrifty</title>
