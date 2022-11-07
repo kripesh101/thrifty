@@ -5,7 +5,7 @@
     let date, time;
     onMount(() => {
         const obj = new Date();
-        if (dateTime > 0) obj.setTime(dateTime);
+        if (dateTime !== null) obj.setTime(dateTime);
 
         date.getElement().value = obj.toLocaleDateString("en-CA");
         time.getElement().value = obj.toTimeString().substring(0, 5);
@@ -13,7 +13,7 @@
     });
 
     export let name = "time";
-    export let dateTime = 0;
+    export let dateTime = null;
     export let disabled = false;
     export let readonly = false;
 

@@ -2,18 +2,20 @@
     import LayoutGrid, { Cell } from "@smui/layout-grid";
     import TopAppBar, { Row, Section, Title, AutoAdjust } from "@smui/top-app-bar";
     import IconButton from "@smui/icon-button";
-    import { state } from "../stores";
-    import fetchBackend from "../lib/backend";
+    import { state } from "@/stores";
+    import fetchBackend from "@/lib/backend";
     import Button, { Label, Icon } from "@smui/button";
-    import Expense from "../lib/Expense.svelte";
+    import Expense from "@/lib/Expense.svelte";
     import Paper from "@smui/paper";
     import ExpensesDialog from "./ExpensesDialog.svelte";
     import { getContext, onMount, setContext } from "svelte";
-    import { getThisWeek, getToday } from "../lib/date";
+    import { getThisWeek, getToday } from "@/lib/date";
+    import CategoryChart from "@/lib/charts/CategoryChart.svelte";
 
     const snackbar = getContext("snackbar");
 
     let topAppBar;
+    let chart;
 
     async function logout() {
         const res = await fetchBackend("/logout/", "post");
@@ -24,8 +26,8 @@
     }
 
     let expensesDialogMode = false;
-    let expensesDialogData = undefined;
     let expensesDialogOpen = false;
+    let expensesDialogData;
 
     function openExpensesDialog(data, editMode = false) {
         expensesDialogMode = editMode;
@@ -42,12 +44,6 @@
             todayTotal = "XXXX";
             expenses = "loading";
         }
-        let fetchCount = 0;
-
-        function countUp() {
-            fetchCount++;
-            if (fetchCount >= 3) callback();
-        }
 
         function expensesFetch(path = "") {
             return fetchBackend("/expenses/" + path);
@@ -57,19 +53,16 @@
             return expensesFetch(`total/?timestamp_start=${obj.start}&timestamp_end=${obj.end}`);
         }
 
-        fetchTotal(getThisWeek()).then(async (res) => {
-            weekTotal = await res.json();
-            countUp();
-        });
-
-        fetchTotal(getToday()).then(async (res) => {
-            todayTotal = await res.json();
-            countUp();
-        });
-
-        expensesFetch().then(async (res) => {
-            expenses = await res.json();
-            countUp();
+        Promise.all([
+            fetchTotal(getThisWeek()),
+            fetchTotal(getToday()),
+            expensesFetch(),
+            chart.reloadChart()
+        ]).then(async (res) => {
+            weekTotal = await res[0].json();
+            todayTotal = await res[1].json();
+            expenses = await res[2].json();
+            callback();
         });
     }
 
@@ -116,14 +109,10 @@
                 </div>
             </div>
         </Cell>
-        <Cell spanDevices={{ desktop: 6, tablet: 4 }}>
-            <!-- Graph will be here -->
-            <img
-                src="https://images.squarespace-cdn.com/content/v1/55b6a6dce4b089e11621d3ed/1585087896250-R3GZ6OFWYQRZUJRCJU3D/produce_monthly.png?format=1000w"
-                alt="graph"
-            />
+        <Cell spanDevices={{ desktop: 6, tablet: 8 }}>
+            <CategoryChart bind:this={chart} />
         </Cell>
-        <Cell spanDevices={{ desktop: 6, tablet: 4 }}>
+        <Cell spanDevices={{ desktop: 6, tablet: 8 }}>
             <div style="padding: 1em;">
                 <Button
                     variant="raised"

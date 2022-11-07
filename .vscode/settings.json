@@ -13,6 +13,9 @@
     "eslint.validate": [
         "svelte"
     ],
+    "eslint.workingDirectories": [
+        "./web"
+    ],
     "task.allowAutomaticTasks": "on",
     "files.exclude": {
         "**/__pycache__": true

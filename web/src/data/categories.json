@@ -1,22 +1,32 @@
 {
     "restaurant": {
         "title": "Restaurant",
-        "icon": "Restaurant"
+        "icon": "Restaurant",
+        "color": "#ff6384"
     },
     "entertainment": {
         "title": "Entertainment",
-        "icon": "movie"
+        "icon": "movie",
+        "color": "#8b63ff"
     },
     "shopping": {
         "title": "Shopping",
-        "icon": "shopping_cart"
+        "icon": "shopping_cart",
+        "color": "#ff8463"
     },
     "transportation": {
         "title": "Transportation",
-        "icon": "directions_bus"
+        "icon": "directions_bus",
+        "color": "#19c100"
+    },
+    "health": {
+        "title": "Health",
+        "icon": "medical_services",
+        "color": "#b71c1c"
     },
     "others": {
         "title": "Others",
-        "icon": "payments"
+        "icon": "payments",
+        "color": "#d3d002"
     }
 }

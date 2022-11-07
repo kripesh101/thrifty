@@ -14,3 +14,8 @@ db_read_exception = HTTPException(
     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
     detail="Error reading record from database"
 )
+
+invalid_parameters_exception = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="Invalid parameters specified"
+)

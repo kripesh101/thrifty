@@ -1,8 +1,8 @@
 <script>
-    import { Icon } from "@smui/button";
+    import { Icon } from "@smui/common";
     import Ripple from "@smui/ripple";
     import { getContext } from "svelte";
-    import categories from "../data/categories.json";
+    import categories from "@/data/categories.json";
 
     export let data = {
         category: "restaurant",
@@ -14,7 +14,7 @@
 
     const openExpensesDialog = getContext("openExpensesDialog");
 
-    $: if (data.timestamp) {
+    $: if (typeof data.timestamp === "number") {
         const date = new Date(data.timestamp);
         parsedTime =
             date.toLocaleDateString("en-US", {
@@ -38,8 +38,8 @@
     tabindex="0"
     class="container"
 >
-    <div class="icon">
-        <Icon style="font-size: min(2.5em, 8vmin);" class="material-symbols-rounded"
+    <div class="icon" style="background-color: {categories[data.category].color}">
+        <Icon style="font-size: min(2.5em, 8vmin); color: white;" class="material-symbols-rounded"
             >{categories[data.category].icon}</Icon
         >
     </div>
@@ -76,7 +76,6 @@
 
     .icon {
         border-radius: 50px;
-        background-color: #8c7e7e;
         width: min(4em, 12vmin);
         height: min(4em, 12vmin);
         display: flex;
@@ -99,11 +98,8 @@
 
     @media (prefers-color-scheme: light) {
         .container {
-            backdrop-filter: brightness(0.75);
-            -webkit-backdrop-filter: brightness(0.75);
-        }
-        .icon {
-            background-color: #d9d9d9;
+            backdrop-filter: brightness(0.9);
+            -webkit-backdrop-filter: brightness(0.9);
         }
     }
 </style>

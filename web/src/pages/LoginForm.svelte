@@ -5,8 +5,8 @@
     import Icon from "@smui/textfield/icon";
 
     import { getContext } from "svelte";
-    import { postForm } from "../lib/backend.js";
-    import { state } from "../stores.js";
+    import { postForm } from "@/lib/backend.js";
+    import { state } from "@/stores.js";
 
     let username = "";
     let password = "";

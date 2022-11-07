@@ -4,9 +4,9 @@
     import Button, { Label } from "@smui/button";
     import Icon from "@smui/textfield/icon";
 
-    import { postForm } from "../lib/backend.js";
+    import { postForm } from "@/lib/backend.js";
     import { getContext } from "svelte";
-    import { state } from "../stores.js";
+    import { state } from "@/stores.js";
 
     let username = "";
     let password = "";

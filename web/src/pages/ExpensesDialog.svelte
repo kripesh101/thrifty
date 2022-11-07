@@ -5,17 +5,17 @@
     import Button, { Label } from "@smui/button";
     import Textfield from "@smui/textfield";
     import Icon from "@smui/textfield/icon";
-    import DatePicker from "../lib/DatePicker.svelte";
-
     import { getContext } from "svelte";
-    import categories from "../data/categories.json";
-    import fetchBackend, { postForm } from "../lib/backend";
-    import { fakeFocusIOS } from "../lib/hacks";
+
+    import DatePicker from "@/lib/DatePicker.svelte";
+    import categories from "@/data/categories.json";
+    import fetchBackend, { postForm } from "@/lib/backend";
+    import { fakeFocusIOS } from "@/lib/hacks";
 
     const defaultData = {
         category: "",
         title: "",
-        timestamp: 0,
+        timestamp: null,
         cost: "",
         description: ""
     };
