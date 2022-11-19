@@ -2,13 +2,16 @@
     import Snackbar, { Actions, Label } from "@smui/snackbar";
     import IconButton from "@smui/icon-button";
     import CircularProgress from "@smui/circular-progress";
-    import Homepage from "./pages/Homepage.svelte";
-    import RegisterForm from "./pages/LandingPage.svelte";
-    import fetchBackend from "./lib/backend.js";
     import { onMount, setContext } from "svelte";
     import { state } from "./stores.js";
+    import fetchBackend from "./lib/backend.js";
 
-    // waiting | not_loggedin | loggedin
+    import Landing from "./pages/landing/Landing.svelte";
+    import CredentialsForm from "./pages/credentials/CredentialsForm.svelte";
+    import Dashboard from "./pages/dashboard/Dashboard.svelte";
+    import Logo from "./lib/Logo.svelte";
+
+    // waiting | landing | loggedout | loggedin
     $state = "waiting";
 
     onMount(async () => {
@@ -19,7 +22,7 @@
                 return;
             }
         }
-        $state = "loggedout";
+        $state = "landing";
     });
 
     let snackbar, snackbarText, snackbarClass;
@@ -52,14 +55,20 @@
     </Snackbar>
 
     {#if $state === "loggedin"}
-        <Homepage />
+        <Dashboard />
+    {:else if $state === "landing"}
+        <Landing />
     {:else}
         <div class="container">
             <div class="item">
                 {#if $state === "loggedout"}
-                    <RegisterForm />
+                    <CredentialsForm />
                 {:else if $state === "waiting"}
-                    <CircularProgress style="height: 32px; width: 32px;" indeterminate />
+                    <div>
+                        <Logo />
+                        <br />
+                        <CircularProgress style="height: 32px; width: 32px;" indeterminate />
+                    </div>
                 {/if}
             </div>
         </div>

@@ -1,3 +1,5 @@
+<svelte:options immutable />
+
 <script>
     import { Icon } from "@smui/common";
     import Ripple from "@smui/ripple";
