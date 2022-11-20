@@ -56,11 +56,10 @@
 
         if (response.ok && (await response.json()) === true) {
             if (editMode) {
-                refresh(false, () => {
-                    snackbar("Edited expense entry.", "success");
-                    open = false;
-                    disabled = false;
-                });
+                await refresh(false);
+                snackbar("Edited expense entry.", "success");
+                open = false;
+                disabled = false;
                 return;
             }
 
@@ -82,11 +81,10 @@
         const response = await fetchBackend(`/expenses/delete/${currentData.id}`, "delete");
 
         if (response.ok && (await response.json()) === true) {
-            refresh(false, () => {
-                snackbar("Deleted expense entry.", "success");
-                open = false;
-                disabled = false;
-            });
+            await refresh(false);
+            snackbar("Deleted expense entry.", "success");
+            open = false;
+            disabled = false;
             return;
         } else {
             snackbar("Error deleting entry. Please try again.");

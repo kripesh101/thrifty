@@ -1,4 +1,5 @@
 <script>
+    import Router from "svelte-spa-router";
     import Snackbar, { Actions, Label } from "@smui/snackbar";
     import IconButton from "@smui/icon-button";
     import CircularProgress from "@smui/circular-progress";
@@ -11,7 +12,13 @@
     import Dashboard from "./pages/dashboard/Dashboard.svelte";
     import Logo from "./lib/Logo.svelte";
 
-    // waiting | landing | loggedout | loggedin
+    const loggedoutRoutes = {
+        "/": Landing,
+        "/start": CredentialsForm,
+        "*": Landing
+    };
+
+    // waiting | loggedout | loggedin
     $state = "waiting";
 
     onMount(async () => {
@@ -22,7 +29,7 @@
                 return;
             }
         }
-        $state = "landing";
+        $state = "loggedout";
     });
 
     let snackbar, snackbarText, snackbarClass;
@@ -56,20 +63,16 @@
 
     {#if $state === "loggedin"}
         <Dashboard />
-    {:else if $state === "landing"}
-        <Landing />
-    {:else}
+    {:else if $state === "loggedout"}
+        <Router routes={loggedoutRoutes} />
+    {:else if $state === "waiting"}
         <div class="container">
             <div class="item">
-                {#if $state === "loggedout"}
-                    <CredentialsForm />
-                {:else if $state === "waiting"}
-                    <div>
-                        <Logo />
-                        <br />
-                        <CircularProgress style="height: 32px; width: 32px;" indeterminate />
-                    </div>
-                {/if}
+                <div>
+                    <Logo />
+                    <br />
+                    <CircularProgress style="height: 32px; width: 32px;" indeterminate />
+                </div>
             </div>
         </div>
     {/if}

@@ -10,29 +10,44 @@
     let active = "Login";
 </script>
 
-<Logo />
+<main>
+    <div class="container">
+        <Logo />
 
-<h2>THRIFTY</h2>
-<Paper style="padding-top: 16px; padding-bottom: 16px;">
-    <div>
-        <TabBar tabs={["Login", "Register"]} let:tab bind:active>
-            <Tab {tab}>
-                <Label>{tab}</Label>
-            </Tab>
-        </TabBar>
-    </div>
+        <h2>THRIFTY</h2>
+        <Paper style="padding-top: 16px; padding-bottom: 16px;">
+            <div class="form">
+                <TabBar tabs={["Login", "Register"]} let:tab bind:active>
+                    <Tab {tab}>
+                        <Label>{tab}</Label>
+                    </Tab>
+                </TabBar>
+            </div>
 
-    <div>
-        {#if active === "Login"}
-            <LoginForm />
-        {:else if active === "Register"}
-            <RegisterForm />
-        {/if}
+            <div class="form">
+                {#if active === "Login"}
+                    <LoginForm />
+                {:else if active === "Register"}
+                    <RegisterForm />
+                {/if}
+            </div>
+        </Paper>
     </div>
-</Paper>
+</main>
 
 <style>
-    div {
+    main {
+        display: flex;
+        place-items: center;
+        min-width: 320px;
+        min-height: 100vh;
+    }
+
+    .container {
+        margin: 0 auto;
+    }
+
+    .form {
         padding: 10px;
         align-self: center;
     }

@@ -1,7 +1,7 @@
 <script>
+    import { push } from "svelte-spa-router";
     import Logo from "@/lib/Logo.svelte";
     import Button, { Label } from "@smui/button";
-    import { state } from "@/stores.js";
     import darkScreenshot from "./phone-screenshot-dark.png";
     import lightScreenshot from "./phone-screenshot-light.png";
     import LayoutGrid, { Cell } from "@smui/layout-grid";
@@ -16,7 +16,7 @@
             </div>
             <p>Keep track of your expenses.</p>
 
-            <Button variant="raised" style="padding: 25px;" on:click={() => ($state = "loggedout")}>
+            <Button variant="raised" style="padding: 25px;" on:click={() => push("/start")}>
                 <Label>Get Started!</Label>
             </Button>
         </Cell>

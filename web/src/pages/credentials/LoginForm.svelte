@@ -5,6 +5,7 @@
     import Icon from "@smui/textfield/icon";
 
     import { getContext } from "svelte";
+    import { replace } from "svelte-spa-router";
     import { postForm } from "@/lib/backend.js";
     import { state } from "@/stores.js";
 
@@ -23,6 +24,7 @@
                 snackbar("Login successful.", "success");
                 disabled = false;
                 $state = "loggedin";
+                replace("/");
                 return;
             }
         }

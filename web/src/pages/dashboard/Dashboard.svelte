@@ -3,12 +3,13 @@
     import TopAppBar, { Row, Section, Title, AutoAdjust } from "@smui/top-app-bar";
     import IconButton from "@smui/icon-button";
 
-    import { dashboardState } from "./stores.js";
     import { state } from "@/stores.js";
+    import Router, { pop, location, replace } from "svelte-spa-router";
     import ExpenseHistory from "./ExpenseHistory.svelte";
     import ExpensesDialog from "./ExpensesDialog.svelte";
     import Homepage from "./Homepage.svelte";
     import fetchBackend from "@/lib/backend.js";
+    import { refreshImpl } from "./stores.js";
 
     setContext("openExpensesDialog", openExpensesDialog);
     setContext("refresh", refresh);
@@ -24,22 +25,26 @@
         expensesDialogOpen = true;
     }
 
-    function refresh(visible, callback) {
-        context.refresh(visible, callback);
+    function refresh(visible) {
+        $refreshImpl(visible);
     }
 
     async function logout() {
         const res = await fetchBackend("/logout/", "post");
         if ((await res.json()) === true) {
-            $state = "landing";
+            $state = "loggedout";
+            replace("/");
             snackbar("Logged out.", "success");
         }
     }
 
-    let context;
-    $: currentPage = $dashboardState === "homepage" ? Homepage : ExpenseHistory;
-
     let topAppBar;
+
+    const routes = {
+        "/": Homepage,
+        "/history": ExpenseHistory,
+        "*": Homepage
+    };
 </script>
 
 <ExpensesDialog
@@ -51,9 +56,16 @@
 <TopAppBar bind:this={topAppBar} variant="fixed" dense>
     <Row>
         <Section>
-            {#if $dashboardState !== "homepage"}
+            {#if $location !== "/"}
                 <IconButton
-                    on:click={() => ($dashboardState = "homepage")}
+                    on:click={async () => {
+                        await pop();
+
+                        // Make sure clicking the button takes us back to the dashboard home page.
+                        setTimeout(() => {
+                            if ($location !== "/") replace("/");
+                        }, 50);
+                    }}
                     class="material-symbols-rounded"
                 >
                     arrow_back
@@ -68,5 +80,5 @@
 </TopAppBar>
 
 <AutoAdjust {topAppBar}>
-    <svelte:component this={currentPage} bind:this={context} />
+    <Router {routes} />
 </AutoAdjust>

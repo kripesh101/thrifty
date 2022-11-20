@@ -6,6 +6,7 @@
 
     import { postForm } from "@/lib/backend.js";
     import { getContext } from "svelte";
+    import { replace } from "svelte-spa-router";
     import { state } from "@/stores.js";
 
     let username = "";
@@ -23,6 +24,7 @@
                 snackbar("Registered successfully and logged in.", "success");
                 disabled = false;
                 $state = "loggedin";
+                replace("/");
                 return;
             }
         }

@@ -3,16 +3,18 @@
     import { onMount } from "svelte";
     import Expense from "@/lib/Expense.svelte";
     import fetchBackend from "@/lib/backend";
+    import { refreshImpl } from "./stores.js";
 
     let expenses;
 
-    export async function refresh(visible = true, callback) {
+    export async function refresh(visible = true) {
         if (visible) expenses = "loading";
         const res = await fetchBackend("/expenses/");
         expenses = await res.json();
-        callback?.();
     }
 
+    // eslint-disable-next-line prefer-const
+    $refreshImpl = refresh;
     onMount(refresh);
 </script>
 

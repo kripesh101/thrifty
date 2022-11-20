@@ -6,7 +6,8 @@
     import Paper from "@smui/paper";
     import { getContext, onMount } from "svelte";
     import { getThisWeek, getToday } from "@/lib/date";
-    import { dashboardState } from "./stores.js";
+    import { push } from "svelte-spa-router";
+    import { refreshImpl } from "./stores.js";
     import Chart from "@/lib/charts/Chart.svelte";
 
     const openExpensesDialog = getContext("openExpensesDialog");
@@ -16,7 +17,8 @@
     let weekTotal;
     let todayTotal;
     let expenses;
-    export function refresh(visible = true, callback) {
+
+    export async function refresh(visible = true) {
         if (visible) {
             weekTotal = "XXXX";
             todayTotal = "XXXX";
@@ -35,19 +37,29 @@
             return `?timestamp_start=${obj.start}&timestamp_end=${obj.end}`;
         }
 
-        Promise.all([
-            fetchTotal(getThisWeek()),
-            fetchTotal(getToday()),
-            expensesFetch(params(getToday())),
-            chart.reloadChart()
-        ]).then(async (res) => {
-            weekTotal = await res[0].json();
-            todayTotal = await res[1].json();
-            expenses = await res[2].json();
-            callback?.();
+        const ret = new Promise((resolve, reject) => {
+            Promise.all([
+                fetchTotal(getThisWeek()),
+                fetchTotal(getToday()),
+                expensesFetch(params(getToday())),
+                chart.reloadChart()
+            ])
+                .then(async (res) => {
+                    weekTotal = await res[0].json();
+                    todayTotal = await res[1].json();
+                    expenses = await res[2].json();
+                    resolve();
+                })
+                .catch((reason) => {
+                    reject(reason);
+                });
         });
+
+        return ret;
     }
 
+    // eslint-disable-next-line prefer-const
+    $refreshImpl = refresh;
     onMount(refresh);
 </script>
 
@@ -95,7 +107,7 @@
                 <p>Loading...</p>
             {/if}
             <div style="text-align: right; padding-top: 10px;">
-                <Button on:click={() => ($dashboardState = "history")}>
+                <Button on:click={() => push("/history")}>
                     <Label>View All</Label>
                     <Icon class="material-symbols-rounded">arrow_right_alt</Icon>
                 </Button>
