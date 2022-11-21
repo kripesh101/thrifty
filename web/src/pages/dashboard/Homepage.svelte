@@ -1,7 +1,9 @@
 <script>
     import LayoutGrid, { Cell } from "@smui/layout-grid";
     import fetchBackend from "@/lib/backend";
-    import Button, { Label, Icon } from "@smui/button";
+    import { Icon } from "@smui/common";
+    import Button, { Label } from "@smui/button";
+    import Tooltip, { Wrapper } from "@smui/tooltip";
     import Expense from "@/lib/Expense.svelte";
     import Paper from "@smui/paper";
     import { getContext, onMount } from "svelte";
@@ -17,12 +19,14 @@
     let weekTotal;
     let todayTotal;
     let expenses;
+    let weeklyTarget;
 
     export async function refresh(visible = true) {
         if (visible) {
             weekTotal = "XXXX";
             todayTotal = "XXXX";
             expenses = "loading";
+            weeklyTarget = null;
         }
 
         function expensesFetch(path = "") {
@@ -42,17 +46,17 @@
                 fetchTotal(getThisWeek()),
                 fetchTotal(getToday()),
                 expensesFetch(params(getToday())),
+                fetchBackend("/settings/weekly_target/"),
                 chart.reloadChart()
             ])
                 .then(async (res) => {
                     weekTotal = await res[0].json();
                     todayTotal = await res[1].json();
                     expenses = await res[2].json();
+                    weeklyTarget = await res[3].json();
                     resolve();
                 })
-                .catch((reason) => {
-                    reject(reason);
-                });
+                .catch(reject);
         });
 
         return ret;
@@ -73,7 +77,29 @@
                 </h6>
             </div>
             <div class="circle">
-                <img src="https://picsum.photos/id/1037/200" alt="todo" />
+                <Wrapper>
+                    <div>
+                        <Icon style="font-size: 3em" class="material-symbols-rounded">
+                            {#if !weeklyTarget}
+                                pending
+                            {:else if weeklyTarget < weekTotal}
+                                error
+                            {:else}
+                                check
+                            {/if}
+                        </Icon>
+                    </div>
+                    <Tooltip>
+                        <b>Weekly Target: </b>
+                        {#if weeklyTarget === 0}
+                            Not Set
+                        {:else if !weeklyTarget}
+                            Loading...
+                        {:else}
+                            Rs. {weeklyTarget}
+                        {/if}
+                    </Tooltip>
+                </Wrapper>
             </div>
             <div class="text">
                 <h6>
@@ -153,18 +179,25 @@
         background: var(--mdc-theme-surface);
     }
 
-    .circle img {
+    .circle div {
         position: absolute;
-        max-width: 85%;
         border-radius: 50%;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 3;
+        line-height: 0;
+        padding: max(10px, 2.25vmin);
+        backdrop-filter: brightness(2);
+        -webkit-backdrop-filter: brightness(2);
+        background-color: transparent;
     }
 
-    img {
-        width: 100%;
+    @media (prefers-color-scheme: light) {
+        .circle div {
+            backdrop-filter: brightness(0.8);
+            -webkit-backdrop-filter: brightness(0.8);
+        }
     }
 
     div.text {

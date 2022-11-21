@@ -1,15 +1,18 @@
 <script>
-    import { getContext, setContext } from "svelte";
-    import TopAppBar, { Row, Section, Title, AutoAdjust } from "@smui/top-app-bar";
+    import Menu from "@smui/menu";
     import IconButton from "@smui/icon-button";
+    import { getContext, setContext } from "svelte";
+    import List, { Item, Graphic, Separator, Text } from "@smui/list";
+    import Router, { pop, location, replace } from "svelte-spa-router";
+    import TopAppBar, { Row, Section, Title, AutoAdjust } from "@smui/top-app-bar";
 
     import { state } from "@/stores.js";
-    import Router, { pop, location, replace } from "svelte-spa-router";
+    import Homepage from "./Homepage.svelte";
+    import { refreshImpl } from "./stores.js";
+    import fetchBackend from "@/lib/backend.js";
     import ExpenseHistory from "./ExpenseHistory.svelte";
     import ExpensesDialog from "./ExpensesDialog.svelte";
-    import Homepage from "./Homepage.svelte";
-    import fetchBackend from "@/lib/backend.js";
-    import { refreshImpl } from "./stores.js";
+    import TargetDialog from "./TargetDialog.svelte";
 
     setContext("openExpensesDialog", openExpensesDialog);
     setContext("refresh", refresh);
@@ -39,12 +42,15 @@
     }
 
     let topAppBar;
+    let menu;
 
     const routes = {
         "/": Homepage,
         "/history": ExpenseHistory,
         "*": Homepage
     };
+
+    let targetDialogOpen;
 </script>
 
 <ExpensesDialog
@@ -52,6 +58,8 @@
     bind:open={expensesDialogOpen}
     bind:editMode={expensesDialogEditMode}
 />
+
+<TargetDialog bind:open={targetDialogOpen} />
 
 <TopAppBar bind:this={topAppBar} variant="fixed" dense>
     <Row>
@@ -74,7 +82,24 @@
             <Title>THRIFTY</Title>
         </Section>
         <Section align="end" toolbar>
-            <IconButton on:click={logout} class="material-symbols-rounded">logout</IconButton>
+            <div>
+                <IconButton on:click={() => menu.setOpen(true)} class="material-symbols-rounded">
+                    more_vert
+                </IconButton>
+                <Menu bind:this={menu}>
+                    <List>
+                        <Item on:SMUI:action={() => (targetDialogOpen = true)}>
+                            <Graphic class="material-symbols-rounded">payments</Graphic>
+                            <Text>Configure Weekly Target</Text>
+                        </Item>
+                        <Separator />
+                        <Item on:SMUI:action={logout}>
+                            <Graphic class="material-symbols-rounded">logout</Graphic>
+                            <Text>Logout</Text>
+                        </Item>
+                    </List>
+                </Menu>
+            </div>
         </Section>
     </Row>
 </TopAppBar>
