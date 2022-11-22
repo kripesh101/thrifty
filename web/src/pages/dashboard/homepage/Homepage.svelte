@@ -9,7 +9,7 @@
     import { getContext, onMount } from "svelte";
     import { getThisWeek, getToday } from "@/lib/date";
     import { push } from "svelte-spa-router";
-    import { refreshImpl } from "./stores.js";
+    import { refreshImpl } from "@/pages/dashboard/stores.js";
     import Chart from "@/lib/charts/Chart.svelte";
 
     const openExpensesDialog = getContext("openExpensesDialog");
@@ -191,6 +191,8 @@
         backdrop-filter: brightness(2);
         -webkit-backdrop-filter: brightness(2);
         background-color: transparent;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
     @media (prefers-color-scheme: light) {

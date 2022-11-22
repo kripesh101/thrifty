@@ -52,6 +52,11 @@ span.mdc-top-app-bar__title {
     color: theme.$on-primary;
 }
 
+// Chip Checkmark SVG
+.mdc-chip__checkmark-path {
+    stroke: #fff;
+}
+
 //
 // Some defaults that may be helpful to you.
 // If you just want to use these, and not the classes, you can instead just

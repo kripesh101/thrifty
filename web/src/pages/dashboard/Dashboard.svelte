@@ -7,10 +7,10 @@
     import TopAppBar, { Row, Section, Title, AutoAdjust } from "@smui/top-app-bar";
 
     import { state } from "@/stores.js";
-    import Homepage from "./Homepage.svelte";
+    import Homepage from "./homepage/Homepage.svelte";
     import { refreshImpl } from "./stores.js";
     import fetchBackend from "@/lib/backend.js";
-    import ExpenseHistory from "./ExpenseHistory.svelte";
+    import ExpenseHistory from "./history/ExpenseHistory.svelte";
     import ExpensesDialog from "./ExpensesDialog.svelte";
     import TargetDialog from "./TargetDialog.svelte";
 
@@ -50,7 +50,7 @@
         "*": Homepage
     };
 
-    let targetDialogOpen;
+    let targetDialogOpen = false;
 </script>
 
 <ExpensesDialog

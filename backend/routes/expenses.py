@@ -1,6 +1,6 @@
 import sqlite3
 from decimal import Decimal
-from typing import Union
+from typing import Union, Literal
 from fastapi import Depends, APIRouter, Query
 
 import db.core as db
@@ -33,7 +33,7 @@ def create_expense(expense: UserExpenseEntry, user: User = Depends(get_user)):
         raise db_write_exception
 
 
-def get_expenses_data(user_id, category, timestamp_start, timestamp_end, columns = "*", num_rows = None, group_by_category = False):
+def get_expenses_data(user_id, category, timestamp_start, timestamp_end, columns = "*", num_rows = None, group_by_category = False, order_by = "Time DESC"):
     query = "SELECT %s FROM Expenses WHERE UserID=?" % columns
     values = (user_id,)
 
@@ -52,7 +52,7 @@ def get_expenses_data(user_id, category, timestamp_start, timestamp_end, columns
     if group_by_category:
         query += " GROUP BY Category"
 
-    query += " ORDER BY Time DESC"
+    query += " ORDER BY " + order_by
 
     try:
         con, cur = db.get_both()
@@ -71,9 +71,19 @@ def get_expenses(
     timestamp_start: Union[None, int] = None,
     timestamp_end: Union[None, int] = None,
     count: Union[None, int] = None,
+    sort_by: Literal["timestamp", "cost"] = "timestamp",
+    order: Literal["asc", "desc"] = "desc",
     user: User = Depends(get_user)
 ):
-    sql_res = get_expenses_data(user.id, category, timestamp_start, timestamp_end, "*, rowid", count)
+    sort = ""
+    if sort_by == "timestamp":
+        sort += "Time "
+    elif sort_by == "cost":
+        sort += "Cost "
+
+    sort += order.upper()
+
+    sql_res = get_expenses_data(user.id, category, timestamp_start, timestamp_end, "*, rowid", count, False, sort)
     res = []
     for entry in sql_res:
         res.append({
