@@ -18,14 +18,14 @@ Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, L
 @typedef {import("chart.js").ChartConfiguration} ChartConfiguration
 @typedef {{
     type: "week" | "year",
-    timestamp: number | undefined
+    timestamp: number | null
 }} SummaryChartOptions
 */
 
 /** @type SummaryChartOptions */
 const options = {
     type: "week",
-    timestamp: undefined
+    timestamp: null
 };
 let currentOptions = { ...options };
 let title;
