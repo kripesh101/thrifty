@@ -6,6 +6,9 @@
     import FormField from "@smui/form-field";
     import DatePicker from "@/lib/DatePicker.svelte";
     import { getContext } from "svelte";
+    import Textfield from "@smui/textfield";
+    import Icon from "@smui/textfield/icon";
+    import HelperText from "@smui/textfield/helper-text";
 
     const snackbar = getContext("snackbar");
     const configDefault = {
@@ -20,7 +23,8 @@
                     enabled: false,
                     timestamp: null
                 }
-            }
+            },
+            textFilter: ""
         },
         sort: {
             by: "timestamp",
@@ -62,7 +66,14 @@
             params += `timestamp_start=${filters.date.from.timestamp}&`;
         }
         if (filters.date.to.enabled) {
-            params += `timestamp_end=${filters.date.to.timestamp}&`;
+            // Add 1 day so the selected date is also included
+            const date = new Date(filters.date.to.timestamp);
+            date.setDate(date.getDate() + 1);
+            params += `timestamp_end=${date.getTime()}&`;
+        }
+
+        if (filters.textFilter) {
+            params += `text_filter=${filters.textFilter}&`;
         }
 
         return params;
@@ -76,15 +87,38 @@
 
 <div class="type" style="margin-top: 0;">
     <h4>Filters</h4>
+    <div class="option-container">
+        <b>Title / Description:</b>
+        <br />
+        <div class="input-container">
+            <Textfield
+                bind:value={config.filters.textFilter}
+                input$pattern={"[A-Za-z0-9\\s]{0,500}"}
+                input$maxlength={500}
+                input$title="Numbers, spaces and letters only. Maximum length: 500"
+                label="Query"
+                variant="outlined"
+            >
+                <Icon class="material-symbols-rounded" slot="leadingIcon">search</Icon>
+                <HelperText validationMsg slot="helper">Invalid characters.</HelperText>
+            </Textfield>
+        </div>
+    </div>
     <div class="option-container date">
-        <b>Range:</b>
+        <b>Date Range:</b>
         <br />
         <FormField>
             <Checkbox bind:checked={config.filters.date.from.enabled} />
             <span slot="label">From</span>
         </FormField>
         {#if config.filters.date.from.enabled}
-            <DatePicker bind:dateTime={config.filters.date.from.timestamp} />
+            <div class="input-container">
+                <DatePicker
+                    bind:dateTime={config.filters.date.from.timestamp}
+                    fullWidth={false}
+                    dateOnly={true}
+                />
+            </div>
         {/if}
     </div>
     <div class="option-container date">
@@ -93,7 +127,13 @@
             <span slot="label">To</span>
         </FormField>
         {#if config.filters.date.to.enabled}
-            <DatePicker bind:dateTime={config.filters.date.to.timestamp} />
+            <div class="input-container">
+                <DatePicker
+                    bind:dateTime={config.filters.date.to.timestamp}
+                    fullWidth={false}
+                    dateOnly={true}
+                />
+            </div>
         {/if}
     </div>
     <div class="option-container">
@@ -167,5 +207,10 @@
     .date {
         max-width: 450px;
         margin-bottom: 1em;
+    }
+
+    .input-container {
+        padding-top: 0.5em;
+        padding-left: 0.5em;
     }
 </style>

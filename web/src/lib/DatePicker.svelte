@@ -8,7 +8,7 @@
         if (dateTime !== null) obj.setTime(dateTime);
 
         date.getElement().value = obj.toLocaleDateString("en-CA");
-        time.getElement().value = obj.toTimeString().substring(0, 5);
+        if (!dateOnly) time.getElement().value = obj.toTimeString().substring(0, 5);
         updateTime();
     });
 
@@ -16,15 +16,21 @@
     export let dateTime = null;
     export let disabled = false;
     export let readonly = false;
+    export let dateOnly = false;
+    export let fullWidth = true;
 
     function updateTime() {
-        const timeObj = time.getElement().valueAsDate;
         const dateObj = date.getElement().valueAsDate;
-
-        // Offset in milliseconds
+        dateTime = dateObj.getTime();
         const offsetMS = dateObj.getTimezoneOffset() * 60 * 1000;
+        dateTime += offsetMS;
 
-        dateTime = dateObj.getTime() + timeObj.getTime() + offsetMS;
+        if (!dateOnly) {
+            const timeObj = time.getElement().valueAsDate;
+
+            // Offset in milliseconds
+            dateTime += timeObj.getTime();
+        }
     }
 
     function showPicker(e) {
@@ -51,20 +57,26 @@
         label="Date"
         type="date"
         variant="outlined"
-        style="width: 55%;"
+        style={fullWidth ? "width: 55%;" : ""}
         required
     />
-    <Textfield
-        bind:value={timeText}
-        bind:input={time}
-        {disabled}
-        {input$readonly}
-        on:change={updateTime}
-        on:click$preventDefault={showPicker}
-        label="Time"
-        type="time"
-        variant="outlined"
-        style="width: 43%;"
-        required
-    />
+    {#if !dateOnly}
+        <Textfield
+            bind:value={timeText}
+            bind:input={time}
+            {disabled}
+            {input$readonly}
+            on:change={updateTime}
+            on:click$preventDefault={showPicker}
+            label="Time"
+            type="time"
+            variant="outlined"
+            style={fullWidth ? "width: 43%;" : ""}
+            required
+        />
+    {/if}
+    <!-- 
+        <p>{dateTime}</p>
+        <p>{new Date(dateTime)}</p>
+    -->
 </div>

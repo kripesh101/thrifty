@@ -1,6 +1,7 @@
 import sqlite3
 from decimal import Decimal
 from typing import Union, Literal
+from pydantic import constr
 from fastapi import Depends, APIRouter, Query
 
 import db.core as db
@@ -33,7 +34,7 @@ def create_expense(expense: UserExpenseEntry, user: User = Depends(get_user)):
         raise db_write_exception
 
 
-def get_expenses_data(user_id, category, timestamp_start, timestamp_end, columns = "*", num_rows = None, group_by_category = False, order_by = "Time DESC"):
+def get_expenses_data(user_id, category, timestamp_start, timestamp_end, columns = "*", num_rows = None, group_by_category = False, order_by = "Time DESC", text_filter = None):
     query = "SELECT %s FROM Expenses WHERE UserID=?" % columns
     values = (user_id,)
 
@@ -51,6 +52,11 @@ def get_expenses_data(user_id, category, timestamp_start, timestamp_end, columns
 
     if group_by_category:
         query += " GROUP BY Category"
+    
+    if text_filter:
+        text_filter = "%" + text_filter + "%"
+        query += " AND (Description LIKE ? OR Title LIKE ?)"
+        values += (text_filter, text_filter,)
 
     query += " ORDER BY " + order_by
 
@@ -73,6 +79,7 @@ def get_expenses(
     count: Union[None, int] = None,
     sort_by: Literal["timestamp", "cost"] = "timestamp",
     order: Literal["asc", "desc"] = "desc",
+    text_filter: Union[None, constr(regex='^[A-Za-z0-9\s]+$', max_length=500)] = None,
     user: User = Depends(get_user)
 ):
     sort = ""
@@ -83,7 +90,7 @@ def get_expenses(
 
     sort += order.upper()
 
-    sql_res = get_expenses_data(user.id, category, timestamp_start, timestamp_end, "*, rowid", count, False, sort)
+    sql_res = get_expenses_data(user.id, category, timestamp_start, timestamp_end, "*, rowid", count, False, sort, text_filter)
     res = []
     for entry in sql_res:
         res.append({
@@ -102,9 +109,10 @@ def get_expenses_total(
     category: Union[None, list[str]] = Query(default=None),
     timestamp_start: Union[None, int] = None,
     timestamp_end: Union[None, int] = None,
+    text_filter: Union[None, constr(regex='^[A-Za-z0-9\s]+$', max_length=500)] = None,
     user: User = Depends(get_user)
 ):
-    sql_res = get_expenses_data(user.id, category, timestamp_start, timestamp_end, "SUM(Cost)", 1)[0][0]
+    sql_res = get_expenses_data(user.id, category, timestamp_start, timestamp_end, "SUM(Cost)", 1, text_filter=text_filter)[0][0]
     sql_res = sql_res or 0
     return Decimal(sql_res)/100
 

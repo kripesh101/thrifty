@@ -1,7 +1,7 @@
 {
     "restaurant": {
-        "title": "Restaurant",
-        "icon": "Restaurant",
+        "title": "Food",
+        "icon": "restaurant",
         "color": "#ff6384"
     },
     "entertainment": {

@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from "svelte";
+    import { getContext, onMount } from "svelte";
     import Expense from "@/lib/Expense.svelte";
     import fetchBackend from "@/lib/backend";
     import { refreshImpl } from "@/pages/dashboard/stores.js";
@@ -13,6 +13,8 @@
     let filter;
     let total;
 
+    const snackbar = getContext("snackbar");
+
     export async function refresh(visible = true) {
         const filterQuery = filter.getFilterParams();
         if (filterQuery === null) return;
@@ -22,12 +24,16 @@
             total = "XXXX";
         }
 
-        const res = await Promise.all([
-            fetchBackend("/expenses/" + filterQuery + filter.getSortParams()),
-            fetchBackend("/expenses/total/" + filterQuery)
-        ]);
-        expenses = await res[0].json();
-        total = await res[1].json();
+        try {
+            const res = await Promise.all([
+                fetchBackend("/expenses/" + filterQuery + filter.getSortParams()),
+                fetchBackend("/expenses/total/" + filterQuery)
+            ]);
+            expenses = await res[0].json();
+            total = await res[1].json();
+        } catch {
+            snackbar("Error processing request. Please try again.");
+        }
     }
 
     // eslint-disable-next-line prefer-const

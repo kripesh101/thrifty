@@ -2,9 +2,9 @@
 
 The objectives of our project are:
 
-- Assist users with managing their finances
-- Daily or weekly tracking of expenditure
-- Highlight products or services where the user has spent excess money
+- To assist users with managing their finances
+- To track daily and weekly expenditures
+- To highlight products or services where the user has spent excess money
 
 # Directories
 

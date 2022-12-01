@@ -45,7 +45,7 @@
             Promise.all([
                 fetchTotal(getThisWeek()),
                 fetchTotal(getToday()),
-                expensesFetch(params(getToday())),
+                expensesFetch(params(getToday()) + "&count=5"),
                 fetchBackend("/settings/weekly_target/"),
                 chart.reloadChart()
             ])

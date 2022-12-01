@@ -14,7 +14,7 @@
                 <Logo />
                 <h1>THRIFTY</h1>
             </div>
-            <p>Keep track of your expenses.</p>
+            <p>TRACK IT. SAVE IT.</p>
 
             <Button variant="raised" style="padding: 25px;" on:click={() => push("/start")}>
                 <Label>Get Started!</Label>
