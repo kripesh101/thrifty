@@ -1,12 +1,12 @@
 <script>
     import { Chart } from "chart.js";
-    import { onDestroy, onMount } from "svelte";
+    import { onDestroy, setContext } from "svelte";
     import { fade } from "svelte/transition";
     import IconButton from "@smui/icon-button";
     import CircularProgress from "@smui/circular-progress";
+
     import { type, loading } from "./stores.js";
-    import SummaryChart from "./summary.js";
-    import CategoryChart from "./category.js";
+    import ChartSettings from "./ChartSettings.svelte";
 
     Chart.defaults.font.family = "Montserrat";
     Chart.defaults.font.size = 14;
@@ -22,49 +22,31 @@
         if (processing) return;
         processing = true;
 
+        nextChart = optionsDialog.getNextChart();
         chart = await nextChart.update(canvas);
         title = nextChart.getTitle();
 
         processing = false;
     }
+    setContext("reloadChart", reloadChart);
 
     onDestroy(() => {
         chart.destroy?.();
     });
 
-    onMount(() => {
-        nextChart = $type === "category" ? CategoryChart : SummaryChart;
-    });
-
-    function swapChart() {
-        if (processing) return;
-
-        if (nextChart === SummaryChart) {
-            if (SummaryChart.options.type === "week") SummaryChart.options.type = "year";
-            else {
-                CategoryChart.options.type = "month";
-                nextChart = CategoryChart;
-            }
-        } else if (nextChart === CategoryChart) {
-            if (CategoryChart.options.type === "month") CategoryChart.options.type = "overall";
-            else if (CategoryChart.options.type === "overall") CategoryChart.options.type = "today";
-            else if (CategoryChart.options.type === "today") CategoryChart.options.type = "week";
-            else if (CategoryChart.options.type === "week") CategoryChart.options.type = "year";
-            else {
-                SummaryChart.options.type = "week";
-                nextChart = SummaryChart;
-            }
-        }
-
-        reloadChart();
-    }
+    let optionsDialog;
+    let dialogOpen = false;
 </script>
+
+<ChartSettings bind:this={optionsDialog} bind:open={dialogOpen} />
 
 <div class="chart-header">
     <span class="chart-title">
         {title}
     </span>
-    <IconButton class="material-symbols-rounded" on:click={swapChart}>tune</IconButton>
+    <IconButton class="material-symbols-rounded" on:click={() => (dialogOpen = true)}
+        >tune</IconButton
+    >
 </div>
 <div class="canvas-container" class:wide={$type === "summary"}>
     <canvas bind:this={canvas} />

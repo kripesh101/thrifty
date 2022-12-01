@@ -30,6 +30,8 @@ const options = {
 let currentOptions = { ...options };
 let title;
 
+let dates = [];
+
 /**
  * Update chart with latest data
  * @param {HTMLCanvasElement} canvas
@@ -50,6 +52,10 @@ async function update(canvas) {
     if (options.type === "week") {
         timestamps = getWeekArray(options.timestamp);
         data.labels = days;
+        dates = timestamps.map((val) => {
+            const obj = new Date(val.start);
+            return months[obj.getMonth()] + " " + obj.getDate();
+        });
         title = "Weekly Summary";
     } else {
         timestamps = getYearArray(options.timestamp);
@@ -101,8 +107,13 @@ const config = {
         plugins: {
             tooltip: {
                 callbacks: {
-                    title: (ctx) =>
-                        `Expense ${currentOptions.type === "week" ? "on" : "in"}: ${ctx[0].label}`,
+                    title: (ctx) => {
+                        const index = ctx[0].dataIndex;
+                        const label = ctx[0].label;
+                        if (currentOptions.type === "week")
+                            return `Expense on: ${label}, ${dates[index]}`;
+                        else return `Expense in: ${label}`;
+                    },
                     label: (ctx) => "Rs. " + ctx.parsed.y
                 },
                 backgroundColor: (item) => item.tooltip.labelColors[0].borderColor,
