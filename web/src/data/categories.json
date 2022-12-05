@@ -24,6 +24,11 @@
         "icon": "medical_services",
         "color": "#b71c1c"
     },
+	"education": {
+		"title": "Education",
+		"icon": "school",
+		"color": "#0267a2"
+	},
     "others": {
         "title": "Others",
         "icon": "payments",
