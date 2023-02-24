@@ -7,7 +7,7 @@
         const obj = new Date();
         if (dateTime !== null) obj.setTime(dateTime);
 
-        date.getElement().value = obj.toLocaleDateString("en-CA");
+        date.getElement().value = obj.toLocaleDateString("fr-CA");
         if (!dateOnly) time.getElement().value = obj.toTimeString().substring(0, 5);
         updateTime();
     });
