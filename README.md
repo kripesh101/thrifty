@@ -1,6 +1,22 @@
 # Thrifty
 
-The objectives of our project are:
+Thrifty is a web application for expense tracking. It includes visualizations and powerful search tools to help you have a better grip on your finances.
+
+Thrifty is available at https://thrifty.pages.dev/.
+
+![Thrifty Overview](docs/thrifty-overview.jpg)
+
+# Features
+
+- A responsive web application, looks great across phones and desktops
+- Powerful search features to find the exact transaction you are looking for
+- Visualizations that summarize your spending habits
+- Option to set a weekly spending limit
+- Supports dark mode and light mode
+
+# Objectives
+
+The objectives of Thrifty are:
 
 - To assist users with managing their finances
 - To track daily and weekly expenditures
@@ -13,6 +29,7 @@ The objectives of our project are:
 |`backend` | Python and FastAPI backend |
 | `web` | Svelte frontend |
 | `docs` | draw.io diagrams, etc. |
+
 
 # Development Setup
 
